@@ -38,6 +38,13 @@ class AdminOdFirstController extends ModuleAdminController{
         $result = Resources::validate($array_verify);
         echo json_encode($result);
     }
+    public function ajaxProcessModifyValues(){
+        $ver = new Resources();
+        $jsonData = json_decode($_GET['dataString']);
+        $array_verify = ["id" => $jsonData[0],"name" => $jsonData[1],"age" => $jsonData[2],"date" => $jsonData[3]];
+        $result = $ver->save($array_verify);
+        echo json_encode($result);
+    }
     /**
      * Generate content when loading the controller
      */
@@ -192,7 +199,6 @@ class AdminOdFirstController extends ModuleAdminController{
             }
         }
         //If the arrows to order the table are pressed 
-        //TODO also, mientras termina el modify value, seguramente usando lo mismo se pueda.
         if(Tools::getIsset('odfirstOrderby')){
         $orderBy = Tools::getValue('odfirstOrderby','ID');
         $orderWay = Tools::getValue('odfirstOrderway','desc');
@@ -345,20 +351,24 @@ class AdminOdFirstController extends ModuleAdminController{
                 ],
             ],
         ];
+        $id = 1;
         $helper = new HelperForm();
         $helper->table = $this->table;
         $helper->name_controller = $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
         $helper->currentIndex = AdminController::$currentIndex;
         $helper->submit_action = 'submit' . $this->name;
-        
+        if(Tools::isSubmit('updateodfirst')){
+            $id = Tools::getValue('ID');
+        }
         $helper->fields_value = array(
-            'mod_name' => Tools::getValue('name',Db::getInstance()->getValue('SELECT name FROM ps_odFirst WHERE ID=1')),
-            'mod_age' => Tools::getValue('age',Db::getInstance()->getValue('SELECT age FROM ps_odFirst WHERE ID=1')),
-            'mod_date' => Tools::getValue('date',Db::getInstance()->getValue('SELECT date FROM ps_odFirst WHERE ID=1')),
-            'mod_creation_date' => Tools::getValue('creation_date',Db::getInstance()->getValue('SELECT creation_date FROM ps_odFirst WHERE ID=1')),
-            'mod_mod_date' => Tools::getValue('mod_date',Db::getInstance()->getValue('SELECT mod_date FROM ps_odFirst WHERE ID=1')),
-            'mod_del_date' => Tools::getValue('del_date',Db::getInstance()->getValue('SELECT del_date FROM ps_odFirst WHERE ID=1')),  
+            'mod_id' => $id,
+            'mod_name' => Db::getInstance()->getValue('SELECT name FROM ps_odFirst WHERE ID='.$id),
+            'mod_age' => Db::getInstance()->getValue('SELECT age FROM ps_odFirst WHERE ID='.$id),
+            'mod_date' => Db::getInstance()->getValue('SELECT date FROM ps_odFirst WHERE ID='.$id),
+            'mod_creation_date' => Db::getInstance()->getValue('SELECT creation_date FROM ps_odFirst WHERE ID='.$id),
+            'mod_mod_date' => Db::getInstance()->getValue('SELECT mod_date FROM ps_odFirst WHERE ID='.$id),
+            'mod_del_date' => Db::getInstance()->getValue('SELECT del_date FROM ps_odFirst WHERE ID='.$id),  
         );
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         Media::addJsDef(array(
@@ -384,6 +394,7 @@ class AdminOdFirstController extends ModuleAdminController{
             <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
             </div>';
         }
+        else if ($this->active == 2){
             $navBody .= '<div class="tab-pane" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
             <div class="tab-pane active" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
             <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>

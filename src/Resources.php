@@ -253,10 +253,10 @@ class Resources{
     * @param array $array_data array with the elements that are going to be modified onto the database
     * @return mixed $query if the validation is successfully or $array_save which gives two arrays with the errors and right inputs
     */
-    function save(array $array_save){
+    public function save(array $array_save){
         $array_error = $this->validate($array_save);
         if(count($array_error['error']) === 0){
-            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",creation_date=NOW(),mod_date=NOW() WHERE ID = '.$array_save['id']);
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",mod_date=NOW() WHERE ID = '.$array_save['id']);
             return $query;
         }
         else{
