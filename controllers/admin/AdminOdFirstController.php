@@ -297,6 +297,13 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     [
                     'type' => 'text',
+                    'label' => 'id',
+                    'name' => 'mod_id',
+                    'class' => 'id',
+                    'disabled' => true,
+                    ],
+                    [
+                    'type' => 'text',
                     'label' => 'naming',
                     'name' => 'mod_name',
                     'class' => 'name',
@@ -343,7 +350,7 @@ class AdminOdFirstController extends ModuleAdminController{
                     [
                     'type' => 'button',
                     'id' => 'btnEdit',
-                    'name' => 'editButton',
+                    'name' => 'commonButton',
                     'title' => 'update user',
                     ],
                 ],
