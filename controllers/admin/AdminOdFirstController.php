@@ -6,9 +6,9 @@ use Symfony\Component\Validator\Constraints\IsNull;
 class AdminOdFirstController extends ModuleAdminController{
     /**
      * $this->errors
-     * $this->success
-     * $this->warning
-     * $this->info
+     * $this->confirmations
+     * $this->warnings
+     * $this->informations
      */
     protected $active = 1;
     public function __construct(){
@@ -165,13 +165,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
         $helper->currentIndex = AdminController::$currentIndex;
         $helper->submit_action = 'submit' . $this->name;
-        /*
-        if I need to insert values into a form
-        $helper->fields_value = array(
-            'msgForm' => Tools::getValue('name',Db::getInstance()->getValue('SELECT name FROM ps_odFirst WHERE ID=1')),
-            'dateForm' => Tools::getValue('age',Db::getInstance()->getValue('SELECT age FROM ps_odFirst WHERE ID=1')),
-            'nbmForm' => Tools::getValue('date',Db::getInstance()->getValue('SELECT date FROM ps_odFirst WHERE ID=1')),
-        );*/
+
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
@@ -293,6 +287,10 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         return $helper->generateList($result,$field_list);
     }
+    /**
+     * The content of modify tab
+     * @return string string containing the entire tab
+     */
     public function displayModify(){
         $form = [
             'form' => [
