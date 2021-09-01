@@ -87,11 +87,6 @@ class AdminOdFirstController extends ModuleAdminController{
             $this->active = 2;
             Resources::deleteUser($_GET['ID']);
         }
-        //If modify button is pressed
-        if(Tools::isSubmit('updateodfirst')){
-            $this->active = 2;
-            echo 'updateeeee';
-        }
         //If removed X or check is pressed, it changes to the inverse
         if(Tools::isSubmit('statusodfirst')){
             $this->displayInformation($this->l("ID modified"));
@@ -101,6 +96,11 @@ class AdminOdFirstController extends ModuleAdminController{
         //If the search filter, the arrow to order any field, or page is selected load the table tab as active
         if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
             $this->active = 2;
+        }
+        //If modify button is pressed
+        if(Tools::isSubmit('updateodfirst')){
+            $this->active = 3;
+            Tools::getValue($_GET['ID']);
         }
     }
     /**
@@ -378,16 +378,21 @@ class AdminOdFirstController extends ModuleAdminController{
      */
     public function generateNavBody(){
         $navBody = '';
-        if($this->active== 1){
+        if($this->active == 1){
             $navBody .= '<div class="tab-pane active" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
             <div class="tab-pane" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
-            <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().'</div>
+            <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
             </div>';
         }
-        else{
             $navBody .= '<div class="tab-pane" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
             <div class="tab-pane active" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
-            <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().'</div>
+            <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
+            </div>';
+        }
+        else if ($this->active == 3){
+            $navBody .= '<div class="tab-pane" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
+            <div class="tab-pane" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
+            <div class="tab-pane active" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
             </div>';
         }
         return $navBody;

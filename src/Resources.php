@@ -73,8 +73,14 @@ class Resources{
             $output .= '<li class="nav-item">';
         }
         $output .= '<a class="nav-link" id="table-tab" data-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false">Views users</a>
-        </li>
-        <li class="nav-item"><a class="nav-link" id="modify-tab" data-toggle="tab" href="#modify" role="tab" aria-controls="modify" aria-selected="false">Modify user</a></li>
+        </li>';
+        if($nav == 3){
+            $output .= '<li class="nav-item active">';
+        }
+        else{
+            $output .= '<li class="nav-item">';
+        }
+        $output .= '<a class="nav-link" id="modify-tab" data-toggle="tab" href="#modify" role="tab" aria-controls="modify" aria-selected="false">Modify user</a></li>
         </ul>';
         $output .= '<div class="tab-content" id="tabsBody">';
         return $output;
