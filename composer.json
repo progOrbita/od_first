@@ -1,0 +1,15 @@
+{
+    "name": "alex-prog/od_first",
+    "autoload": {
+        "psr-4": {
+            "OrbitaDigital\\OdFirst\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "progOrbita",
+            "email": "88653237+progOrbita@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
