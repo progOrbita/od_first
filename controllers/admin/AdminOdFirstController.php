@@ -201,9 +201,9 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         //If the arrows to order the table are pressed, order the table.
         if(Tools::getIsset('odfirstOrderby')){
-        $orderBy = Tools::getValue('odfirstOrderby','ID');
-        $orderWay = Tools::getValue('odfirstOrderway','desc');
-        $ordering = ' ORDER BY '.$orderBy.' '.$orderWay;
+        $orderWay = $this->checkOrderDirection(Tools::getValue('odfirstOrderway','desc'));
+        $order = $this->checkOrderBy(Tools::getValue('odfirstOrderby','ID'));
+        $ordering = ' ORDER BY '.$order.' '.$orderWay;
         $query .= $ordering;
         }
         $field_list = array(
