@@ -98,16 +98,18 @@ $(document).ready(function(){
                     jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
 				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
 				}
-				//if the query is right
-				else if(jsonData === true){
-				}
 				//if there's an error in the query
-				else{
+				if(jsonData === false){
+                    addInfo('danger','Error processing the information');
 				}
         });
     });
     $(document).on('click','#btnFind',function(){
         let id = $('#find_id').val();
+        if(id === ""){
+            addInfo('warning','User id not found in the database, please try again');
+                return;
+        }
         let jsonString = JSON.stringify(id);
         //send the data as a JSON string
         let ajaxRequest = $.ajax({
@@ -120,6 +122,10 @@ $(document).ready(function(){
         });
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
+            if(jsonData.length === 0){
+                addInfo('warning','User id not found in the database, please try again');
+                return;
+            }
             jsonData.forEach(element => {
                 $('#mod_id').attr('value',element['ID']);
                 $('#mod_name').attr('value',element['name']);
