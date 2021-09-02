@@ -24,6 +24,7 @@ class AdminOdFirstController extends ModuleAdminController{
      */
     public function ajaxProcessAddValues(){
         $ver = new Resources();
+        $this->success[] = $this->l('Information successfully updated.');
         $jsonData = json_decode($_GET['dataString']);
         $array_verify = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
         $result = $ver->add($array_verify);
@@ -83,22 +84,28 @@ class AdminOdFirstController extends ModuleAdminController{
     public function checkOperations(){
         $this->active = 1;
         if(Tools::isSubmit('submitResetodfirst')){
-            $this->displayInformation($this->l("filters reset'd"));
+            $this->context->controller->informations[] = "Filters reseted";
             //unset the filters
             $this->processResetFilters();
             $this->active = 2;
         }
         //Delete(Remove) and update the table
         if(Tools::isSubmit('deleteodfirst')){
-            $this->displayInformation($this->l("name remove'd"));
             $this->active = 2;
-            Resources::deleteUser($_GET['ID']);
+            $done = Resources::deleteUser($_GET['ID']);
+            //$this->displayInformation($this->l("name remove'd"));
+            if($done == 'removed'){
+                $this->context->controller->informations[] = "User is already removed";
+            }
+            else{
+                (($done == true) ? $this->context->controller->informations[] = "User removed" : $this->context->controller->errors[] = "Error processing the information (query error)");
+            }
         }
         //If removed X or check is pressed, it changes to the inverse
         if(Tools::isSubmit('statusodfirst')){
-            $this->displayInformation($this->l("ID modified"));
             $this->active = 2;
-            Resources::changeRemoved($_GET['ID']);
+            $done = Resources::changeRemoved($_GET['ID']);
+            (($done == true) ? $this->context->controller->confirmations[] = "ID modified" : $this->context->controller->errors[] = "Process couldn't be done (query error)");
         }
         //If the search filter, the arrow to order any field, or page is selected load the table tab as active
         if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){

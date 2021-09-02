@@ -26,16 +26,20 @@ class Resources{
     /**
     * Check and remove a name from the table by id
     * @param int $id user id to be deleted from the table
-    * @return $query result of the query, or the array with the query if doesn't exist
+    * @return bool $query true if succesfully, false otherwise
     */
     public static function deleteUser(int $id){
+        $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
+        if($checkRemoved==1){
+            return 'removed';
+        }
         $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
         return $query;
     }
     /**
      * Change beetwen removed/non-removed user
      * @param int $id id of the register
-     * @return $remove with the result of the query
+     * @return bool $remove true if done, false if error
      */
     public static function changeRemoved(int $id){
         $query = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
