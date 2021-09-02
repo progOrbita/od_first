@@ -7,6 +7,10 @@ function changeToError(value){
     $(value).addClass("bg-error");
 }
 $(document).ready(function(){
+
+    let img0 = '../img/admin/disabled.gif';
+    let img1 = '../img/admin/enabled.gif';
+                
     $(document).on('click','#btnSubmit',function(){
        let name = $('#name').val();
        let age = $('#age').val();
@@ -115,5 +119,38 @@ $(document).ready(function(){
             });
         });
     });
+    //if the check/X image is pressed, change the element.
+    $('td:nth-child(8) img').click(function(e){
+        let id = $(this).closest("tr").find('td:first-child').html().trim();
+        //Obtain the delete date and image column
+        let mod_date = $(this).closest("tr").find('td:nth-child(6)');
+        let date = $(this).closest("tr").find('td:nth-child(7)');
+        let image = $(this).closest("tr").find('td:nth-child(8) img');
+        e.preventDefault();
+        let jsonString = JSON.stringify(id);
+        //send the data as a JSON string
+        let ajaxRequest = $.ajax({
+            url: admin_od,
+            data: {
+                ajax: true,
+                action: 'changeRemoved',
+                dataString: jsonString,
+            },
+        });
+        ajaxRequest.done(function(data){
+            let jsonData = JSON.parse(data);
+            let now = new Date().toLocaleString();
+            if(jsonData === "1"){
+                image.attr('src',img1);
+                mod_date.html(now);
+                date.html(now);
+            }
+            else{
+                image.attr('src',img0);
+                mod_date.html(now);
+                date.html('--');
+            }
+        });
+        return false;
     });
 });

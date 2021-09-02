@@ -29,6 +29,11 @@ class AdminOdFirstController extends ModuleAdminController{
         $result = $ver->add($array_verify);
         echo json_encode($result);
     }
+    public function ajaxProcessChangeRemoved(){
+        $user_id = json_decode($_GET['dataString']);
+        $result = Resources::changeRemoved($user_id);
+        $this->ajaxDie(json_encode($result));
+    }
     public function ajaxProcessFindUser(){
         $user_id = json_decode($_GET['dataString']);
         $result = Resources::findUser($user_id);
@@ -260,8 +265,12 @@ class AdminOdFirstController extends ModuleAdminController{
                 'title' => 'deleted',
                 'width' => 200,
                 'type' => 'bool',
+                //'active' => 'status',
+                'icon' => array(
+                    0 =>  'disabled.gif',
+                    1 => 'enabled.gif',
+                ),
                 'filter_type' => 'bool',
-                'active' => 'status',
             ),
         );
         $result = Db::getInstance()->executeS($query);
