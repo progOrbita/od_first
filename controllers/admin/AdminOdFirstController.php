@@ -1,7 +1,6 @@
 <?php
 
 use OrbitaDigital\OdFirst\Resources;
-use Symfony\Component\Validator\Constraints\IsNull;
 
 class AdminOdFirstController extends ModuleAdminController{
     /**
@@ -103,7 +102,7 @@ class AdminOdFirstController extends ModuleAdminController{
                 $this->context->controller->informations[] = "User is already removed";
             }
             else{
-                (($done == true) ? $this->context->controller->informations[] = "User removed" : $this->context->controller->errors[] = "Error processing the information (query error)");
+                ($done == true) ? $this->context->controller->informations[] = "User removed" : $this->context->controller->errors[] = "Error processing the information (query error)";
             }
         }
         //If removed X or check is pressed, it changes to the inverse

@@ -7,7 +7,6 @@ use Tools;
 
 class Resources{
     protected $table = _DB_PREFIX_.'odFirst';
-
     /**
     * Add a new user into the database
     * @param array $array_data array containing the data of the user
@@ -24,19 +23,6 @@ class Resources{
         }
     }
     /**
-    * Check and remove a name from the table by id
-    * @param int $id user id to be deleted from the table
-    * @return bool $query true if succesfully, false otherwise
-    */
-    public static function deleteUser(int $id){
-        $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
-        if($checkRemoved==1){
-            return 'removed';
-        }
-        $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
-        return $query;
-    }
-    /**
      * Change beetwen removed/non-removed user
      * @param int $id id of the register
      * @return bool $remove true if done, false if error
@@ -51,6 +37,19 @@ class Resources{
             $remove = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
         return $remove;
         }
+    }
+    /**
+    * Check and remove a name from the table by id
+    * @param int $id user id to be deleted from the table
+    * @return bool $query true if succesfully, false otherwise
+    */
+    public static function deleteUser(int $id){
+        $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
+        if($checkRemoved==1){
+            return 'removed';
+        }
+        $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+        return $query;
     }
     /**
      * find an user given an ID.
@@ -164,6 +163,21 @@ class Resources{
         return Db::getInstance()->execute($dropQuery);
     }
     /**
+    * Update an element in the database
+    * @param array $array_data array with the elements that are going to be modified onto the database
+    * @return mixed $query if the validation is successfully or $array_save which gives two arrays with the errors and right inputs
+    */
+    public function save(array $array_save){
+        $array_error = $this->validate($array_save);
+        if(count($array_error['error']) === 0){
+            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",mod_date=NOW() WHERE ID = '.$array_save['id']);
+            return $query;
+        }
+        else{
+            return $array_error;
+        }
+    }
+    /**
     * validate an array of elements, used for a form
     * @param array $array_data array to be checked. Insert in error if values are wrong otherwise in good if values are fine
     * @return array $arr array with the verified elements divided in error and good
@@ -183,15 +197,6 @@ class Resources{
     }
     
 
-    /**
-    * Check and remove all the rows with the given name from the table 
-    * @param string $name name to be deleted from the table
-    * @return $query result of the query, or the array with the query if doesn't exist
-    */
-    function remove(string $name){
-        $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=1, mod_date=NOW(), del_date=NOW() WHERE name="'.$name.'"');
-        return $query;
-    }
     /**
      * Count the users given the conditions
      * @param string $conditions all the filters/conditions
@@ -258,21 +263,6 @@ class Resources{
     function undo(int $id){
         $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
         return $query;
-    }
-    /**
-    * Update an element in the database
-    * @param array $array_data array with the elements that are going to be modified onto the database
-    * @return mixed $query if the validation is successfully or $array_save which gives two arrays with the errors and right inputs
-    */
-    public function save(array $array_save){
-        $array_error = $this->validate($array_save);
-        if(count($array_error['error']) === 0){
-            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",mod_date=NOW() WHERE ID = '.$array_save['id']);
-            return $query;
-        }
-        else{
-            return $array_error;
-        }
     }
     /**
     * Creates the entire table. 

@@ -89,7 +89,7 @@ $(document).ready(function(){
 				//if there's an error in the query
 				else{
 				}
-        });  
+        });
     });
     $(document).on('click','#btnFind',function(){
         let id = $('#find_id').val();
