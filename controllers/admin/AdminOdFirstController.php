@@ -110,12 +110,6 @@ class AdminOdFirstController extends ModuleAdminController{
                 ($done == true) ? $this->context->controller->informations[] = "User removed" : $this->context->controller->errors[] = "Error processing the information (query error)";
             }
         }
-        //If removed X or check is pressed, it changes to the inverse
-        if(Tools::isSubmit('statusodfirst')){
-            $this->active = 2;
-            $done = Resources::changeRemoved($_GET['ID']);
-            (($done == true) ? $this->context->controller->confirmations[] = "ID modified" : $this->context->controller->errors[] = "Process couldn't be done (query error)");
-        }
         //If the search filter, the arrow to order any field, or page is selected load the table tab as active
         if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
             $this->active = 2;
@@ -198,7 +192,6 @@ class AdminOdFirstController extends ModuleAdminController{
      * Display the entire table, second nav.
      */
     public function displayTable(){
-        $res = new Resources();
         $query = 'SELECT * FROM `'._DB_PREFIX_.'odFirst`';
         //If there's no filters, query return everything (don't enter here)
         if(Tools::isSubmit('submitFilter')){
