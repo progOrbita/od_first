@@ -63,7 +63,7 @@ $(document).ready(function(){
                 if(jsonData.error.length !== 0){
                     jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
 				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-                    addInfo('info','Wrong values');
+                    addInfo('warning','Wrong values');
                 }
                 else{
                     changeToSuccess($("input[name='name']"));
@@ -94,9 +94,8 @@ $(document).ready(function(){
             let jsonData = JSON.parse(data);
 				//if there's errors in the formulary
 				if(typeof(jsonData) === "object"){
-                    //Nullify save button if there's an error
-                    jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                    jsonData.good.forEach(element => changeToSuccess("input[name='mod_"+element+"']"));
+				    jsonData.error.forEach(element => changeToError("input[name='mod_"+element+"']"));
 				}
 				//if there's an error in the query
 				if(jsonData === false){
@@ -130,6 +129,7 @@ $(document).ready(function(){
                 $('#mod_id').attr('value',element['ID']);
                 $('#mod_name').attr('value',element['name']);
                 $('#mod_age').attr('value',element['age']);
+                $('#mod_date').attr('value',element['date']);
                 $('#mod_creation_date').attr('value',element['creation_date']);
                 $('#mod_mod_date').attr('value',element['mod_date']);
                 $('#mod_del_date').attr('value',element['del_date']);
