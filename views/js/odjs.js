@@ -37,15 +37,11 @@ $(document).ready(function(){
                 if(typeof(jsonData) === 'object'){
                     jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
 				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-                    if(jsonData.error.length !== 0){
-                        console.log('data error');
-                    }
                 }
                 else{
                     changeToSuccess($("input[name='name']"));
                     changeToSuccess($("input[name='age']"));
                     changeToSuccess($("input[name='date']"));
-                    console.log('saved');
                 }
         });
     });
@@ -64,12 +60,20 @@ $(document).ready(function(){
              },
              success : function(result){
                 let jsonData = JSON.parse(result);
-                jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-				jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                if(jsonData.error.length !== 0){
+                    jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
+				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                    addInfo('info','Wrong values');
+                }
+                else{
+                    changeToSuccess($("input[name='name']"));
+                    changeToSuccess($("input[name='age']"));
+                    changeToSuccess($("input[name='date']"));
+                }
              }
          });
     });
-    $(document).on('click','#btnEdit',function(){         
+    $(document).on('click','#btnEdit',function(){
         let id = $('#mod_id').val();
         let name = $('#mod_name').val();
         let age = $('#mod_age').val();
@@ -146,6 +150,10 @@ $(document).ready(function(){
         });
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
+            if(jsonData === false){
+            addInfo('danger','Error, process couldnt be done');
+            return;
+            }
             let now = new Date().toLocaleString();
             if(jsonData === "1"){
                 image.attr('src',img1);
