@@ -30,6 +30,11 @@ class AdminOdFirstController extends ModuleAdminController{
         $result = $ver->add($array_verify);
         echo json_encode($result);
     }
+    public function ajaxProcessFindUser(){
+        $user_id = json_decode($_GET['dataString']);
+        $result = Resources::findUser($user_id);
+        echo json_encode($result);
+    }
     /**
      * Process the verify button which verify the add users fields
      */
@@ -295,7 +300,7 @@ class AdminOdFirstController extends ModuleAdminController{
         return $helper->generateList($result,$field_list);
     }
     /**
-     * The content of modify tab
+     * The content of modify tab, third nav
      * @return string string containing the entire tab
      */
     public function displayModify(){
@@ -392,6 +397,46 @@ class AdminOdFirstController extends ModuleAdminController{
         $this->context->controller->addCSS(
             _PS_MODULE_DIR_.'od_first/views/css/styles.css'
         );
+        return $helper->generateForm([$form]);
+    }
+    /**
+     * Display a small field with id to find an user inside modify
+     * @return string string containing the field with a button
+     */
+    public function displayModifyId(){
+        $form = [
+            'form' => [
+                'input' => [
+                    [
+                    'type' => 'text',
+                    'label' => 'id',
+                    'name' => 'find_id',
+                    'class' => 'id',
+                    'size' => '10',
+                    'required' => true,
+                    ],
+                ], 
+                'buttons' => [
+                    [
+                    'type' => 'button',
+                    'id' => 'btnFind',
+                    'name' => 'findButton',
+                    'title' => 'find user',
+                    ],
+                ],
+            ],
+        ];
+        $helper = new HelperForm();
+        $helper->table = $this->table;
+        $helper->name_controller = $this->name;
+        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
+        $helper->currentIndex = AdminController::$currentIndex;
+        $helper->submit_action = 'submit' . $this->name;
+
+        $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
+        Media::addJsDef(array(
+            'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
+        ));
         return $helper->generateForm([$form]);
     }
     /**

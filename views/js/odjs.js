@@ -92,5 +92,28 @@ $(document).ready(function(){
         });  
     });
     $(document).on('click','#btnFind',function(){
+        let id = $('#find_id').val();
+        let jsonString = JSON.stringify(id);
+        //send the data as a JSON string
+        let ajaxRequest = $.ajax({
+            url: admin_od,
+            data: {
+                ajax: true,
+                action: 'findUser',
+                dataString: jsonString,
+            },
+        });
+        ajaxRequest.done(function(data){
+            let jsonData = JSON.parse(data);
+            jsonData.forEach(element => {
+                $('#mod_id').attr('value',element['ID']);
+                $('#mod_name').attr('value',element['name']);
+                $('#mod_age').attr('value',element['age']);
+                $('#mod_creation_date').attr('value',element['creation_date']);
+                $('#mod_mod_date').attr('value',element['mod_date']);
+                $('#mod_del_date').attr('value',element['del_date']);
+            });
+        });
+    });
     });
 });

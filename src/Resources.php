@@ -53,6 +53,13 @@ class Resources{
         }
     }
     /**
+     * find an user given an ID.
+     */
+    public static function findUser(int $id){
+        $query = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
+        return $query;
+    }
+    /**
      * Generate the nav tab for admincontroller
      * @param int $nav active nav to be shown
      * @return string $output string containing the nav
