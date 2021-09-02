@@ -23,7 +23,6 @@ class AdminOdFirstController extends ModuleAdminController{
      */
     public function ajaxProcessAddValues(){
         $ver = new Resources();
-        $this->success[] = $this->l('Information successfully updated.');
         $jsonData = json_decode($_GET['dataString']);
         $array_verify = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
         $result = $ver->add($array_verify);
@@ -46,7 +45,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $jsonData = json_decode($_GET['dataString']);
         $array_verify = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
         $result = Resources::validate($array_verify);
-        echo json_encode($result);
+        $this->ajaxDie(json_encode($result));
     }
     public function ajaxProcessModifyValues(){
         $ver = new Resources();
@@ -71,10 +70,9 @@ class AdminOdFirstController extends ModuleAdminController{
         
     }
     /**
-     * Display the entire content of the adminControllerModule.
+     * Display the entire content of the admin page.
      */
     public function displayTabs(){
-        
         $this->checkOperations();
         $output = '';
         $navHeader = Resources::generateNav($this->active);
@@ -88,7 +86,7 @@ class AdminOdFirstController extends ModuleAdminController{
         ]);
     }
     /**
-     * 
+     * Checks for various submits or actions are pressed.
      */
     public function checkOperations(){
         $this->active = 1;
@@ -201,7 +199,7 @@ class AdminOdFirstController extends ModuleAdminController{
                 $query = $query.' WHERE '.$whereStr;
             }
         }
-        //If the arrows to order the table are pressed 
+        //If the arrows to order the table are pressed, order the table.
         if(Tools::getIsset('odfirstOrderby')){
         $orderBy = Tools::getValue('odfirstOrderby','ID');
         $orderWay = Tools::getValue('odfirstOrderway','desc');
@@ -466,6 +464,10 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         return $navBody;
     }
+    /**
+     * Limit the age to 100 if it's over this number
+     * @return int $value the age or 100
+     */
     public function checkAge($value){
         if($value > 100){
             return 100;
