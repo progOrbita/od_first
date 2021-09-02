@@ -25,21 +25,24 @@ class Resources{
     /**
      * Change beetwen removed/non-removed user
      * @param int $id id of the register
-     * @return bool $remove true if done, false if error
+     * @return bool $remove removed value, false if error
      */
     public static function changeRemoved(int $id){
-        $query = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
-        if($query == 0){
-            $remove = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
-            if($remove){
+        //obtain the removed value
+        $removed = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
+        if($removed == 0){
+            $query = Db::getInstance()->execute('UPDATE'._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+            if($query){
             return Db::getInstance()->getValue('SELECT removed from '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
             }
+            return $query;
         }
         else{
-            $remove = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
-            if($remove)
+            $query = Db::getInstance()->execute('UPDATE'._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
+            if($query)
             return Db::getInstance()->getValue('SELECT removed from '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
-        }
+            }
+            return $query;
     }
     /**
     * Check and remove a name from the table by id

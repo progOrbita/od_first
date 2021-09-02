@@ -47,6 +47,9 @@ class AdminOdFirstController extends ModuleAdminController{
         $result = Resources::validate($array_verify);
         $this->ajaxDie(json_encode($result));
     }
+    /**
+     * Saves values into the database after verification
+     */
     public function ajaxProcessModifyValues(){
         $ver = new Resources();
         $jsonData = json_decode($_GET['dataString']);
