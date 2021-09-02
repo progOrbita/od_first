@@ -6,6 +6,13 @@ function changeToError(value){
     $(value).removeClass("bg-fine");
     $(value).addClass("bg-error");
 }
+function addInfo(type, value){
+    $('#alerts').remove();
+    $('#content').prepend(`<div id="alerts">
+    <p class="alert alert-${type}">${value}
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    </p></div>`);
+}
 $(document).ready(function(){
 
     let img0 = '../img/admin/disabled.gif';
