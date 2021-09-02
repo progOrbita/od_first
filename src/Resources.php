@@ -31,14 +31,14 @@ class Resources{
         //obtain the removed value
         $removed = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
         if($removed == 0){
-            $query = Db::getInstance()->execute('UPDATE'._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+            $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
             if($query){
             return Db::getInstance()->getValue('SELECT removed from '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
             }
             return $query;
         }
         else{
-            $query = Db::getInstance()->execute('UPDATE'._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
+            $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
             if($query)
             return Db::getInstance()->getValue('SELECT removed from '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
             }
@@ -201,66 +201,5 @@ class Resources{
             }
         return $arr;
     }
-    
-
-    /**
-     * Count the users given the conditions
-     * @param string $conditions all the filters/conditions
-     * @return int $usersNumber the number of registers found
-     */
-    function countUsers(string $conditions){
-        $countQuery = "SELECT COUNT(*) FROM ".$this->table." WHERE ".$conditions;
-        $usersNumber = Db::getInstance()->getValue($countQuery);
-        return $usersNumber;
-    }
-    /**
-    * Find users either registered or removed from the database within a limit
-    * @param array $array_data the inputs to filter the query if any
-    * @param int $pagination number of page to show
-    * @param int $result_limit Limit the registers per page
-    * Return mixed $values number of registers found and registers themselves
-    */
-    function find(array $array_data, int $pagination, int $result_limit){
-        //number of result per page
-        /**
-         * What results are returned 
-         * page 1 = 0, page 2 (2-1*5) = 5 (3-1*5) = 10. 
-         * Limit first number is start, second how many of them are returned
-         */
-        $calc_page = ($pagination-1) * $result_limit;
-        $queryString = 'SELECT * FROM '.$this->table.' WHERE ';
-        $whereArr = [];
-        $dateQuery = $array_data['dateType'];
-        foreach ($array_data as $column => $value) {   
-            //Removed is 0, so is needed to check it. 
-            if(empty($value) && $column !="removed"){
-                continue;
-            }
-            switch ($column){
-                case "name":
-                    $whereArr[] = $column.' LIKE "%'.$value.'%"';
-                    break;
-                case "dateBeg":
-                    $whereArr[] = $dateQuery.' >= "'.$value.'"';
-                    break;
-                case "dateEnd":
-                    $whereArr[] = $dateQuery.' <= "'.$value.'"';
-                    break;
-                case "removed":
-                    $whereArr[] = $column.' = '.$value;
-                    break;
-            }
-        }
-        $whereStr = implode(' AND ',$whereArr);
-        //Count users
-        $usersNumber = $this->countUsers($whereStr);
-        //For pagination
-        $limit = ' LIMIT '.$calc_page.','.$result_limit;
-        $queryRequest = $queryString.$whereStr.$limit;
-        $query = Db::getInstance()->executeS($queryRequest);
-        $values = [$usersNumber,$query];
-        return $values;
-    }
-
 }
 ?>
