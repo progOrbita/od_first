@@ -3,7 +3,7 @@ declare (strict_types=1);
 
 namespace OrbitaDigital\OdFirst;
 use Db;
-use Tools;
+use Validate;
 
 class Resources{
     protected $table = _DB_PREFIX_.'odFirst';
@@ -194,6 +194,12 @@ class Resources{
                 $cadenaVacia = trim($value);
                 if(empty($cadenaVacia)){
                     array_push($arr['error'], $keyVal);
+                }
+                if($keyVal=='age'){
+                    Validate::isInt($value) ? array_push($arr['good'],$keyVal) : array_push($arr['error'], $keyVal);
+                }
+                if($keyVal=='date'){
+                    Validate::isDate($value) ? array_push($arr['good'],$keyVal) : array_push($arr['error'], $keyVal);
                 }
                 else{
                     array_push($arr['good'],$keyVal);
