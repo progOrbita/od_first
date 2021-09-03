@@ -42,6 +42,7 @@ $(document).ready(function(){
                     changeToSuccess($("input[name='name']"));
                     changeToSuccess($("input[name='age']"));
                     changeToSuccess($("input[name='date']"));
+                    addInfo('info','User inserted');
                 }
         });
     });
@@ -94,13 +95,12 @@ $(document).ready(function(){
             let jsonData = JSON.parse(data);
 				//if there's errors in the formulary
 				if(typeof(jsonData) === "object"){
-                    jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                    addInfo('warning','Information couldnt be updated, please check the fields again');
 				}
                 if(jsonData === true){
-                    addInfo('success','data updated');
                     let now = new Date().toLocaleString();
                     $('#mod_mod_date').val(now);
+                    addInfo('success','data updated');
                 }
 				//if there's an error in the query
 				if(jsonData === false){
