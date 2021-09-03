@@ -158,4 +158,10 @@ $(document).ready(function(){
         });
         return false;
     });
+    //for nav head
+    $(document).on('click','li a',function(){
+        let nav = $(this).prop('hash');
+        let navId = JSON.stringify(nav);
+        callApi('currentNav',navId);
+    });
 });
