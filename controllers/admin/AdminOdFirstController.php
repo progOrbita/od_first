@@ -26,7 +26,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $jsonData = json_decode($_GET['dataString']);
         $array_verify = ["name" => $jsonData[0],"age" => $jsonData[1],"date" => $jsonData[2]];
         $result = $ver->add($array_verify);
-        echo json_encode($result);
+        $this->ajaxDie(json_encode($result));
     }
     public function ajaxProcessChangeRemoved(){
         $user_id = json_decode($_GET['dataString']);
@@ -135,13 +135,13 @@ class AdminOdFirstController extends ModuleAdminController{
         
         $helper = new HelperForm();
         
-        $helper->table = $this->table;
-        $helper->name_controller = $this->name;
-        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
         $helper->currentIndex = AdminController::$currentIndex;
-        $helper->submit_action = 'submit' . $this->name;
-
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
+        $helper->name_controller = $this->name;
+        $helper->submit_action = 'submit' . $this->name;
+        $helper->table = $this->table;
+        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
+
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
         ));
@@ -151,7 +151,8 @@ class AdminOdFirstController extends ModuleAdminController{
      * Display the entire table, second nav.
      */
     public function displayTable(){
-        $query = 'SELECT * FROM `'._DB_PREFIX_.'odFirst`';
+        $query = 'SELECT * FROM `'._DB_PREFIX_.$this->table.'`';
+        
         //If there's no filters, query return everything (don't enter here)
         if(Tools::isSubmit('submitFilter')){
             $whereStr = Resources::getFilters($_POST);
@@ -204,12 +205,16 @@ class AdminOdFirstController extends ModuleAdminController{
      * @return string string containing the entire tab
      */
     public function displayModify(){
+        
         $helper = new HelperForm();
-        $helper->table = $this->table;
-        $helper->name_controller = $this->name;
-        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
+
         $helper->currentIndex = AdminController::$currentIndex;
+        $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
+        $helper->name_controller = $this->name;
         $helper->submit_action = 'submit' . $this->name;
+        $helper->table = $this->table;
+        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
+
         if(Tools::isSubmit('updateodfirst')){
             $id = Tools::getValue('ID');
         }
@@ -224,7 +229,6 @@ class AdminOdFirstController extends ModuleAdminController{
                 'mod_del_date' => $this->modifyValue('del_date',$id),
             );
         }
-        $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
         ));
@@ -258,13 +262,13 @@ class AdminOdFirstController extends ModuleAdminController{
             ],
         ];
         $helper = new HelperForm();
-        $helper->table = $this->table;
-        $helper->name_controller = $this->name;
-        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
-        $helper->currentIndex = AdminController::$currentIndex;
-        $helper->submit_action = 'submit' . $this->name;
-
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
+        $helper->currentIndex = AdminController::$currentIndex;
+        $helper->name_controller = $this->name;
+        $helper->submit_action = 'submit' . $this->name;
+        $helper->table = $this->table;
+        $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
+
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
         ));
