@@ -9,7 +9,7 @@ class AdminOdFirstController extends ModuleAdminController{
      * $this->warnings
      * $this->informations
      */
-    protected $active = 1;
+    protected $currentTab = 1;
     public function __construct(){
         $this->bootstrap = true;
         $this->name = 'odfirst';
@@ -84,7 +84,7 @@ class AdminOdFirstController extends ModuleAdminController{
         );
         $this->checkOperations();
         $output = '';
-        $navHeader = Resources::generateNav($this->active);
+        $navHeader = Resources::generateNav($this->currentTab);
         $navBody = $this->generateNavBody();
         $output = $navHeader.$navBody;
         /**
@@ -98,16 +98,16 @@ class AdminOdFirstController extends ModuleAdminController{
      * Checks for various submits or actions are pressed.
      */
     public function checkOperations(){
-        $this->active = 1;
+        $this->currentTab = 1;
         if(Tools::isSubmit('submitResetodfirst')){
             $this->context->controller->informations[] = "Filters reseted";
             //unset the filters
             $this->processResetFilters();
-            $this->active = 2;
+            $this->currentTab = 2;
         }
         //Delete(Remove) and update the table
         if(Tools::isSubmit('deleteodfirst')){
-            $this->active = 2;
+            $this->currentTab = 2;
             $done = Resources::deleteUser($_GET['ID']);
             //$this->displayInformation($this->l("name remove'd"));
             if($done == 'removed'){
@@ -117,13 +117,13 @@ class AdminOdFirstController extends ModuleAdminController{
                 ($done == true) ? $this->context->controller->informations[] = "User removed" : $this->context->controller->errors[] = "Error processing the information (query error)";
             }
         }
-        //If the search filter, the arrow to order any field, or page is selected load the table tab as active
+        //If the search filter, the arrow to order any field, or page is selected load the table tab as currentTab
         if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
-            $this->active = 2;
+            $this->currentTab = 2;
         }
         //If modify button is pressed
         if(Tools::isSubmit('updateodfirst')){
-            $this->active = 3;
+            $this->currentTab = 3;
             Tools::getValue($_GET['ID']);
         }
     }
