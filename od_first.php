@@ -56,13 +56,6 @@ class Od_first extends Module{
     public function hookActionAdminControllerSetMedia(){
         //TODO do something
     }
-    public function hookDisplayHeader(){
-        $this->context->smarty->assign([
-            'od_hello' => 'Hola estoy utilizando el hook del header en el modulo od_first',
-            'od_bad' => 'si no existe el hello',
-        ]);
-        return $this->display(__FILE__, '/templates/views/hook/od_first.tpl');
-    }
     /**
      * Redirect to the admin controller link
      */

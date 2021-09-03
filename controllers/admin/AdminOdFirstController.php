@@ -288,7 +288,6 @@ class AdminOdFirstController extends ModuleAdminController{
         ($this->currentTab == 3) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
             $navBody .= '<div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
             </div>';
-        }
         return $navBody;
     }
     /**
