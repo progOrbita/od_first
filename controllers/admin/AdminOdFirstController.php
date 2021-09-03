@@ -66,7 +66,7 @@ class AdminOdFirstController extends ModuleAdminController{
         /**
          * Locate the template in fetch as string and then, is assigned in content.
          */
-        $content = $this->context->smarty->fetch(_PS_MODULE_DIR_.'od_first/templates/views/admin/od_admin.tpl');
+        $content = $this->context->smarty->fetch(_PS_MODULE_DIR_.'od_first/views/templates/admin/od_admin.tpl');
         $this->context->smarty->assign(array(
             'content' => $content,
         ));
