@@ -5,7 +5,8 @@ if(!defined('_PS_VERSION_')){
 }
 
 use OrbitaDigital\OdFirst\Resources;
-require __DIR__ .'/vendor/autoload.php';
+
+require_once __DIR__ .'/vendor/autoload.php';
 
 class Od_first extends Module{
     /**
@@ -39,7 +40,7 @@ class Od_first extends Module{
             return
             Resources::generateTable()
             && $this->registerHook('actionAdminControllerSetMedia')
-            && Resources::generateTable();
+            && parent::install();
     }
     /**
      * Unistall the module
