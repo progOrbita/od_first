@@ -63,12 +63,6 @@ class AdminOdFirstController extends ModuleAdminController{
     public function initContent()
     {
         $this->displayTabs();
-        $this->context->controller->addJS(
-            _PS_MODULE_DIR_.'od_first/views/js/odjs.js'
-            );
-        $this->context->controller->addCSS(
-            _PS_MODULE_DIR_.'od_first/views/css/styles.css'
-        );
         /**
          * Locate the template in fetch as string and then, is assigned in content.
          */
@@ -82,6 +76,12 @@ class AdminOdFirstController extends ModuleAdminController{
      * Display the entire content of the admin page.
      */
     public function displayTabs(){
+        $this->context->controller->addJS(
+            _PS_MODULE_DIR_.'od_first/views/js/odjs.js'
+            );
+        $this->context->controller->addCSS(
+            _PS_MODULE_DIR_.'od_first/views/css/styles.css'
+        );
         $this->checkOperations();
         $output = '';
         $navHeader = Resources::generateNav($this->active);
@@ -140,8 +140,8 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
         $helper->currentIndex = AdminController::$currentIndex;
         $helper->submit_action = 'submit' . $this->name;
-        $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
 
+        $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
         ));
@@ -169,6 +169,7 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         $result = Db::getInstance()->executeS($query);
         
+        
         $helper = new HelperList();
         $helper->actions = array('edit','delete');
         $helper->identifier = 'ID';
@@ -178,8 +179,8 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->show_toolbar = true;
         $helper->shopLinkType = '';
         $helper->simple_header = false;
-        $helper->title = 'User listed';
         $helper->table = $this->name;
+        $helper->title = 'User listed';
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
 
         //Total of registers
@@ -195,9 +196,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $limit = ' LIMIT '.$calc_page.','.$pagination;
         $query .= $limit;
         $result = Db::getInstance()->executeS($query);
-        if(!$result){
-            $this->displayWarning('Error retrieving the data');
-        }
+
         return $helper->generateList($result,$this->tableFields());
     }
     /**
@@ -229,7 +228,6 @@ class AdminOdFirstController extends ModuleAdminController{
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
         ));
-        
         return $helper->generateForm([$this->modifyFields()]);
     }
     /**
@@ -310,7 +308,6 @@ class AdminOdFirstController extends ModuleAdminController{
             return $value;
         }
     }
-    
     public function formFields(){
         $form = [
             'form' => [
