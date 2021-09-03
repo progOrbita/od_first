@@ -63,7 +63,7 @@ $(document).ready(function(){
                 if(jsonData.error.length !== 0){
                     jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
 				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-                    addInfo('warning','Wrong values');
+                    addInfo('info','Wrong values');
                 }
                 else{
                     changeToSuccess($("input[name='name']"));
@@ -94,9 +94,14 @@ $(document).ready(function(){
             let jsonData = JSON.parse(data);
 				//if there's errors in the formulary
 				if(typeof(jsonData) === "object"){
-                    jsonData.good.forEach(element => changeToSuccess("input[name='mod_"+element+"']"));
-				    jsonData.error.forEach(element => changeToError("input[name='mod_"+element+"']"));
+                    jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
+				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
 				}
+                if(jsonData === true){
+                    addInfo('success','data updated');
+                    let now = new Date().toLocaleString();
+                    $('#mod_mod_date').val(now);
+                }
 				//if there's an error in the query
 				if(jsonData === false){
                     addInfo('danger','Error processing the information');
