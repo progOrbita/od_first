@@ -280,22 +280,13 @@ class AdminOdFirstController extends ModuleAdminController{
      */
     public function generateNavBody(){
         $navBody = '';
-        if($this->active == 1){
-            $navBody .= '<div class="tab-pane active" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
-            <div class="tab-pane" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
-            <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
-            </div>';
-        }
-        else if ($this->active == 2){
-            $navBody .= '<div class="tab-pane" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
-            <div class="tab-pane active" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
-            <div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
-            </div>';
-        }
-        else if ($this->active == 3){
-            $navBody .= '<div class="tab-pane" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>
-            <div class="tab-pane" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>
-            <div class="tab-pane active" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
+
+        ($this->currentTab == 1) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
+            $navBody .= '" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>';
+        ($this->currentTab == 2) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
+            $navBody .= '<div class="tab-pane" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>';
+        ($this->currentTab == 3) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
+            $navBody .= '<div class="tab-pane" role="tabpabel" id="modify" aria-labelledby="modify-tab">'.$this->displayModify().$this->displayModifyId().'</div>
             </div>';
         }
         return $navBody;
