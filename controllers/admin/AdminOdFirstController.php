@@ -204,8 +204,6 @@ class AdminOdFirstController extends ModuleAdminController{
      * @return string string containing the entire tab
      */
     public function displayModify(){
-        
-        $id = 1;
         $helper = new HelperForm();
         $helper->table = $this->table;
         $helper->name_controller = $this->name;
@@ -215,15 +213,17 @@ class AdminOdFirstController extends ModuleAdminController{
         if(Tools::isSubmit('updateodfirst')){
             $id = Tools::getValue('ID');
         }
-        $helper->fields_value = array(
-            'mod_id' => $id,
-            'mod_name' => $this->modifyValue('name',$id),
-            'mod_age' => $this->modifyValue('age',$id),
-            'mod_date' => $this->modifyValue('date',$id),
-            'mod_creation_date' => $this->modifyValue('creation_date',$id),
-            'mod_mod_date' => $this->modifyValue('mod_date',$id),
-            'mod_del_date' => $this->modifyValue('del_date',$id),
-        );
+        if($id != null){
+            $helper->fields_value = array(
+                'mod_id' => $id,
+                'mod_name' => $this->modifyValue('name',$id),
+                'mod_age' => $this->modifyValue('age',$id),
+                'mod_date' => $this->modifyValue('date',$id),
+                'mod_creation_date' => $this->modifyValue('creation_date',$id),
+                'mod_mod_date' => $this->modifyValue('mod_date',$id),
+                'mod_del_date' => $this->modifyValue('del_date',$id),
+            );
+        }
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         Media::addJsDef(array(
             'admin_od' => $this->context->link->getAdminLink('AdminOdFirst')
@@ -482,6 +482,6 @@ class AdminOdFirstController extends ModuleAdminController{
         return $modFields;
     }
     public function modifyValue(string $tableField, int $id){
-        return Db::getInstance()->getValue('SELECT '.$tableField.' FROM '._DB_PREFIX_.'_odFirst WHERE ID='.$id);
+        return Db::getInstance()->getValue('SELECT '.$tableField.' FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
     }
 }
