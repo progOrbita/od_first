@@ -29,19 +29,13 @@ $(document).ready(function(){
     let img1 = '../img/admin/enabled.gif';
                 
     $(document).on('click','#btnSubmit',function(){
-       let name = $('#name').val();
-       let age = $('#age').val();
-       let date = $('#date').val();
-       let saveArray = [name,age,date];
-       let saveJson = JSON.stringify(saveArray);
-       let ajaxRequest = $.ajax({
-            url: admin_od,
-            data: {
-                ajax: true,
-                action: 'addValues',
-                dataString : saveJson,
-            },
-        });
+        let name = $('#name').val();
+        let age = $('#age').val();
+        let date = $('#date').val();
+        let saveArray = [name,age,date];
+        let saveJson = JSON.stringify(saveArray);
+        
+        let ajaxRequest = callApi('addValues',saveJson);
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
                 if(typeof(jsonData) === 'object'){
@@ -62,27 +56,23 @@ $(document).ready(function(){
        let date = $('#date').val();
         let verifyArray = [name,age,date];
         let stringJson = JSON.stringify(verifyArray);
-        $.ajax({
-             url: admin_od,
-             data: {
-                 ajax: true,
-                 action: 'verifyValues',
-                 dataString : stringJson,
-             },
-             success : function(result){
-                let jsonData = JSON.parse(result);
-                if(jsonData.error.length !== 0){
-                    jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
-                    addInfo('info','Wrong values');
-                }
-                else{
-                    changeToSuccess($("input[name='name']"));
-                    changeToSuccess($("input[name='age']"));
-                    changeToSuccess($("input[name='date']"));
-                }
-             }
-         });
+
+        let ajaxRequest = callApi('verifyValues',stringJson);
+
+        ajaxRequest.done(function(data){
+            let jsonData = JSON.parse(data);
+            if(jsonData.error.length !== 0){
+                jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
+                jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                addInfo('info','Wrong values');
+            }
+            else{
+                changeToSuccess($("input[name='name']"));
+                changeToSuccess($("input[name='age']"));
+                changeToSuccess($("input[name='date']"));
+            }
+        });
+
     });
     $(document).on('click','#btnEdit',function(){
         let id = $('#mod_id').val();
@@ -92,15 +82,9 @@ $(document).ready(function(){
         let arrayData = [id, name, age, date];
         let jsonString = JSON.stringify(arrayData);
         //send the data as a JSON string
-        let ajaxRequest = $.ajax({
-            url: admin_od,
-            
-            data: {
-                ajax: true,
-                action: 'modifyValues',
-                dataString: jsonString,
-            },
-        });
+
+        let ajaxRequest = callApi('modifyValues',jsonString);
+
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
 				//if there's errors in the formulary
@@ -121,24 +105,17 @@ $(document).ready(function(){
     $(document).on('click','#btnFind',function(){
         let id = $('#find_id').val();
         if(id === ""){
-            addInfo('warning','User id not found in the database, please try again');
-                return;
+            return addInfo('warning','User id not found in the database, please try again');
         }
         let jsonString = JSON.stringify(id);
         //send the data as a JSON string
-        let ajaxRequest = $.ajax({
-            url: admin_od,
-            data: {
-                ajax: true,
-                action: 'findUser',
-                dataString: jsonString,
-            },
-        });
+
+        ajaxRequest = callApi('findUser',jsonString);
+        
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
             if(jsonData.length === 0){
-                addInfo('warning','User id not found in the database, please try again');
-                return;
+                return addInfo('warning','User id not found in the database, please try again');
             }
             jsonData.forEach(element => {
                 $('#mod_id').attr('value',element['ID']);
@@ -152,28 +129,20 @@ $(document).ready(function(){
         });
     });
     //if the check/X image is pressed, change the element.
-    $('td:nth-child(8) img').click(function(e){
+    $('td:nth-child(8) img').click(function(){
         let id = $(this).closest("tr").find('td:first-child').html().trim();
         //Obtain the delete date and image column
         let mod_date = $(this).closest("tr").find('td:nth-child(6)');
         let date = $(this).closest("tr").find('td:nth-child(7)');
         let image = $(this).closest("tr").find('td:nth-child(8) img');
-        e.preventDefault();
         let jsonString = JSON.stringify(id);
         //send the data as a JSON string
-        let ajaxRequest = $.ajax({
-            url: admin_od,
-            data: {
-                ajax: true,
-                action: 'changeRemoved',
-                dataString: jsonString,
-            },
-        });
+
+        let ajaxRequest = callApi('changeRemoved',jsonString);
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
             if(jsonData === false){
-            addInfo('danger','Error, process couldnt be done');
-            return;
+            return addInfo('danger','Error, process couldnt be done');
             }
             let now = new Date().toLocaleString();
             if(jsonData === "1"){
