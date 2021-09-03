@@ -15,12 +15,10 @@ class Resources{
     public function add(array $array_data){
         $array_error = $this->validate($array_data);
         if(count($array_error['error']) === 0){
-            $query = Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date,creation_date,mod_date) VALUES ("'.$array_data['name'].'",'.$array_data['age'].',"'.$array_data['date'].'",NOW(),NOW())');
-            return $query;
+            return Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date,creation_date,mod_date) VALUES ("'.$array_data['name'].'",'.$array_data['age'].',"'.$array_data['date'].'",NOW(),NOW())');
         }
-        else{
-            return $array_error;
-        }
+        
+        return $array_error;
     }
     /**
      * Change beetwen removed/non-removed user
@@ -28,21 +26,27 @@ class Resources{
      * @return bool $remove removed value, false if error
      */
     public static function changeRemoved(int $id){
-        //obtain the removed value
-        $removed = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
+
+        $removed = Resources::getRemoved($id);
         if($removed == 0){
             $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
-            if($query){
-            return Db::getInstance()->getValue('SELECT removed from '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
+            if($query==true){
+                return Resources::getRemoved($id);
             }
-            return $query;
         }
         else{
             $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
-            if($query)
-            return Db::getInstance()->getValue('SELECT removed from '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
+            if($query==true){
+                return Resources::getRemoved($id);
             }
-            return $query;
+        }
+        return $query;
+    }
+    /**
+     * Obtain removed value.
+     */
+    public static function getRemoved(int $id){
+        return Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
     }
     /**
     * Check and remove a name from the table by id
@@ -54,15 +58,13 @@ class Resources{
         if($checkRemoved==1){
             return 'removed';
         }
-        $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
-        return $query;
+        return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
     }
     /**
      * find an user given an ID.
      */
     public static function findUser(int $id){
-        $query = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
-        return $query;
+        return Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
     }
     /**
      * Generate the nav tab for admincontroller
@@ -72,31 +74,17 @@ class Resources{
     public static function generateNav(int $nav){
         $output = '';
         $output .= '
+        
         <ul class="nav nav-tabs" id="nav-tab" role="tablist">';
-        //Only changes active from the li
-        if($nav == 1){
-        $output .= '<li class="nav-item active">';
-        }
-        else{
-            $output .= '<li class="nav-item">';
-        }
+            //**Changes active from the li
+            ($nav == 1) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
             $output .= '<a class="nav-link" id="adding-tab" data-toggle="tab" href="#adding" role="tab" aria-controls="adding" aria-selected="true">Add users</a>
-        </li>';
-        if($nav == 2){
-            $output .= '<li class="nav-item active">';
-        }
-        else{
-            $output .= '<li class="nav-item">';
-        }
-        $output .= '<a class="nav-link" id="table-tab" data-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false">Views users</a>
-        </li>';
-        if($nav == 3){
-            $output .= '<li class="nav-item active">';
-        }
-        else{
-            $output .= '<li class="nav-item">';
-        }
-        $output .= '<a class="nav-link" id="modify-tab" data-toggle="tab" href="#modify" role="tab" aria-controls="modify" aria-selected="false">Modify user</a></li>
+            </li>';
+            ($nav == 2) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
+            $output .= '<a class="nav-link" id="table-tab" data-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false">Views users</a>
+            </li>';
+            ($nav == 3) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
+            $output .= '<a class="nav-link" id="modify-tab" data-toggle="tab" href="#modify" role="tab" aria-controls="modify" aria-selected="false">Modify user</a></li>
         </ul>';
         $output .= '<div class="tab-content" id="tabsBody">';
         return $output;
@@ -138,24 +126,30 @@ class Resources{
                 continue;
             }
             switch ($column){
-            case "name":
-                $whereArr[] = $column.' LIKE "%'.$value.'%"';
+
+                case "name":
+                    $whereArr[] = $column.' LIKE "%'.$value.'%"';
+
+                    break;
+
+                case "date":
+                case "creation_date":
+                case "mod_date":
+                    //*** 0 -> beggining date to filter
+                    //*** 1 -> end date to filter
+                    if(!empty($value[0])){
+                        $whereArr[] = $column.' >= "'.$value[0].'"';
+                    }
+                    if(!empty($value[1])){
+                        $whereArr[] = $column.' <= "'.$value[1].'"';
+                    }
+
                 break;
-            //0 -> beggining date to filter
-            //1 -> end date to filter
-            case "date":
-            case "creation_date":
-            case "mod_date":
-                if(!empty($value[0])){
-                    $whereArr[] = $column.' >= "'.$value[0].'"';
-                }
-                if(!empty($value[1])){
-                    $whereArr[] = $column.' <= "'.$value[1].'"';
-                }
-            break;
-            case "removed":
-                $whereArr[] = $column.' = '.$value;
-                break;
+
+                case "removed":
+                    $whereArr[] = $column.' = '.$value;
+
+                    break;
             }
         }
         $whereStr = implode(' AND ',$whereArr);
@@ -176,12 +170,9 @@ class Resources{
     public function save(array $array_save){
         $array_error = $this->validate($array_save);
         if(count($array_error['error']) === 0){
-            $query = Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",mod_date=NOW() WHERE ID = '.$array_save['id']);
-            return $query;
+            return Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",mod_date=NOW() WHERE ID = '.$array_save['id']);
         }
-        else{
-            return $array_error;
-        }
+        return $array_error;
     }
     /**
     * validate an array of elements, used for a form
