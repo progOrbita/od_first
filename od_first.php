@@ -15,7 +15,6 @@ class Od_first extends Module{
     public function __construct()
     {
         $this->name = 'od_first';
-        $this->tab = 'front_office_features';
         $this->version = '1.1.3';
         $this->author = 'alejandro';
         $this->need_instance = 0;
@@ -38,8 +37,7 @@ class Od_first extends Module{
      */
     public function install(){
             return
-            parent::install()
-            && $this->registerHook('displayHeader')
+            Resources::generateTable()
             && $this->registerHook('actionAdminControllerSetMedia')
             && Resources::generateTable();
     }
@@ -49,10 +47,9 @@ class Od_first extends Module{
     public function uninstall(){
         
         return 
-        parent::uninstall()
-            && Resources::removeTable()
-            && $this->unregisterHook('displayHeader')
-            && $this->unregisterHook('actionAdminControllerSetMedia');
+        Resources::removeTable()
+        && $this->unregisterHook('actionAdminControllerSetMedia')
+        && parent::uninstall();
     }
     
     public function hookActionAdminControllerSetMedia(){
