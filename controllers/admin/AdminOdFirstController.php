@@ -275,6 +275,27 @@ class AdminOdFirstController extends ModuleAdminController{
         return $helper->generateForm([$form]);
     }
     /**
+     * Generate the nav with the tabs
+     * @return string $output html string with the nav
+     */
+    public function generateNavHead(){
+            $output = '';
+            $output .= '
+            <ul class="nav nav-tabs" id="nav-tab" role="tablist">';
+                //**Changes active from the li
+                ($this->currentTab == 1) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
+                $output .= '<a class="nav-link" id="adding-tab" data-toggle="tab" href="#adding" role="tab" aria-controls="adding" aria-selected="true">Add users</a>
+                </li>';
+                ($this->currentTab == 2) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
+                $output .= '<a class="nav-link" id="table-tab" data-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false">Views users</a>
+                </li>';
+                ($this->currentTab == 3) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
+                $output .= '<a class="nav-link" id="modify-tab" data-toggle="tab" href="#modify" role="tab" aria-controls="modify" aria-selected="false">Modify user</a></li>
+            </ul>';
+            $output .= '<div class="tab-content" id="tabsBody">';
+            return $output;
+    }
+    /**
      * Generate the diferent tabs for the body
      * @return string $navBody html code of the tabs
      */

@@ -71,24 +71,7 @@ class Resources{
      * @param int $nav active nav to be shown
      * @return string $output string containing the nav
      */
-    public static function generateNav(int $nav){
-        $output = '';
-        $output .= '
-        
-        <ul class="nav nav-tabs" id="nav-tab" role="tablist">';
-            //**Changes active from the li
-            ($nav == 1) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
-            $output .= '<a class="nav-link" id="adding-tab" data-toggle="tab" href="#adding" role="tab" aria-controls="adding" aria-selected="true">Add users</a>
-            </li>';
-            ($nav == 2) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
-            $output .= '<a class="nav-link" id="table-tab" data-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false">Views users</a>
-            </li>';
-            ($nav == 3) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
-            $output .= '<a class="nav-link" id="modify-tab" data-toggle="tab" href="#modify" role="tab" aria-controls="modify" aria-selected="false">Modify user</a></li>
-        </ul>';
-        $output .= '<div class="tab-content" id="tabsBody">';
-        return $output;
-    }
+    
     /**
     * Generate the entire table for the database
     */
