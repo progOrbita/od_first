@@ -16,7 +16,7 @@ class Od_first extends Module{
     {
         $this->name = 'od_first';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.0';
+        $this->version = '1.1.3';
         $this->author = 'alejandro';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = [
@@ -28,7 +28,7 @@ class Od_first extends Module{
         parent::__construct();
         //This is displayed in the module manager with the version and author
         $this->displayName = $this->l('od_first module');
-        $this->description = $this->l('Shows some text at the top');
+        $this->description = $this->l('Small application to control users');
 
         $this->confirmUnistall = $this->l('Are you sure you want to unistall?');
 
