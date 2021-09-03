@@ -1,3 +1,20 @@
+function addInfo(type, value){
+    $('#alerts').remove();
+    $('#content').prepend(`<div id="alerts">
+    <p class="alert alert-${type}">${value}
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    </p></div>`);
+}
+function callApi(ajaxAction,ajaxString){
+    return $.ajax({
+        url: admin_od,
+        data: {
+            ajax: true,
+            action: ajaxAction,
+            dataString : ajaxString,
+        },
+    });
+}
 function changeToSuccess(value){
     $(value).removeClass("bg-error");
     $(value).addClass("bg-fine");
@@ -5,13 +22,6 @@ function changeToSuccess(value){
 function changeToError(value){
     $(value).removeClass("bg-fine");
     $(value).addClass("bg-error");
-}
-function addInfo(type, value){
-    $('#alerts').remove();
-    $('#content').prepend(`<div id="alerts">
-    <p class="alert alert-${type}">${value}
-    <button type="button" class="close" data-dismiss="alert">x</button>
-    </p></div>`);
 }
 $(document).ready(function(){
 
