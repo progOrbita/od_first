@@ -57,6 +57,24 @@ class AdminOdFirstController extends ModuleAdminController{
         $result = $ver->save($array_verify);
         echo json_encode($result);
     }
+    public function ajaxProcessCurrentNav(){
+        $jsonData = json_decode($_GET['dataString']);
+        switch ($jsonData){
+            case '#adding':
+                setcookie('navSelected',1);
+                break;
+            case '#table':
+                setcookie('navSelected',2);
+                break;
+            case '#modify':
+                setcookie('navSelected',3);
+                break;
+            default:
+            setcookie('navSelected',1);
+                break;
+        }
+        echo json_encode($this->currentTab);
+    }
     /**
      * Generate content when loading the controller
      */
@@ -84,7 +102,7 @@ class AdminOdFirstController extends ModuleAdminController{
         );
         $this->checkOperations();
         $output = '';
-        $navHeader = Resources::generateNav($this->currentTab);
+        $navHeader = $this->generateNavHead();
         $navBody = $this->generateNavBody();
         $output = $navHeader.$navBody;
         /**
@@ -120,6 +138,9 @@ class AdminOdFirstController extends ModuleAdminController{
         //If the search filter, the arrow to order any field, or page is selected load the table tab as currentTab
         if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
             $this->currentTab = 2;
+        }
+        if(isset($_COOKIE['navSelected'])){
+            $this->currentTab = $_COOKIE['navSelected'];
         }
         //If modify button is pressed
         if(Tools::isSubmit('updateodfirst')){
