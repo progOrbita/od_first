@@ -10,6 +10,7 @@ class AdminOdFirstController extends ModuleAdminController{
      * $this->informations
      */
     protected $currentTab = 1;
+    protected $modify_Id;
     public function __construct(){
         $this->bootstrap = true;
         $this->name = 'odfirst';
@@ -138,6 +139,9 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         //If modify button is pressed
         if(Tools::isSubmit('updateodfirst')){
+        else if(Tools::isSubmit('updateodfirst')){
+            $this->Modify_id = Tools::getValue('ID');
+            setcookie('navSelected',3);
             $this->currentTab = 3;
             Tools::getValue($_GET['ID']);
         }
@@ -230,9 +234,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->table = $this->table;
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
 
-        if(Tools::isSubmit('updateodfirst')){
-            $id = Tools::getValue('ID');
-        }
+        $id = $this->Modify_id;
         if($id != null){
             $helper->fields_value = array(
                 'mod_id' => $id,
