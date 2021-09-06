@@ -71,7 +71,7 @@ class AdminOdFirstController extends ModuleAdminController{
                 setcookie('navSelected',3);
                 break;
             default:
-            setcookie('navSelected',1);
+                setcookie('navSelected',1);
                 break;
         }
         echo json_encode($this->currentTab);
@@ -111,18 +111,18 @@ class AdminOdFirstController extends ModuleAdminController{
      * Checks for various submits or actions are pressed.
      */
     public function checkOperations(){
+        
         $this->currentTab = 1;
+        
         if(Tools::isSubmit('submitResetodfirst')){
             $this->context->controller->informations[] = "Filters reseted";
             //unset the filters
             $this->processResetFilters();
-            $this->currentTab = 2;
         }
         //Delete(Remove) and update the table
-        if(Tools::isSubmit('deleteodfirst')){
-            $this->currentTab = 2;
+        else if(Tools::isSubmit('deleteodfirst')){            
             $done = Resources::deleteUser($_GET['ID']);
-            //$this->displayInformation($this->l("name remove'd"));
+            setcookie('navSelected',2);
             if($done == 'removed'){
                 $this->context->controller->informations[] = "User is already removed";
             }
@@ -131,20 +131,22 @@ class AdminOdFirstController extends ModuleAdminController{
             }
         }
         //If the search filter, the arrow to order any field, or page is selected load the table tab as currentTab
-        if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
+        else if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
+            setcookie('navSelected',2);
             $this->currentTab = 2;
-        }
-        if(isset($_COOKIE['navSelected'])){
-            $this->currentTab = $_COOKIE['navSelected'];
+            echo 'cookie '.$_COOKIE['navSelected'];
         }
         //If modify button is pressed
-        if(Tools::isSubmit('updateodfirst')){
         else if(Tools::isSubmit('updateodfirst')){
             $this->Modify_id = Tools::getValue('ID');
             setcookie('navSelected',3);
             $this->currentTab = 3;
-            Tools::getValue($_GET['ID']);
+            unset($_GET['updateodfirst']);
         }
+        if(isset($_COOKIE['navSelected'])){
+            $this->currentTab = $_COOKIE['navSelected'];
+        }
+
     }
     /**
      * Display the formulary in the first nav.
