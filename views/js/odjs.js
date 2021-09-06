@@ -129,10 +129,10 @@ $(document).ready(function(){
     let a = $('td:nth-child(8) img');
     Object.values(a).forEach(element => {
         if(element.alt == 'disabled.gif'){
-            element.className += 'bi bi-x-lg';
+            element.className = 'bi bi-x-lg';
         }
         if(element.alt == 'enabled.gif'){
-            element.className += 'bi bi-check-lg';
+            element.className = 'bi bi-check-lg';
         }
     });
     a.removeAttr('src');
