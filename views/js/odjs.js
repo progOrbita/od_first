@@ -25,9 +25,10 @@ function changeToError(value){
 }
 $(document).ready(function(){
 
-    let img0 = '../img/admin/disabled.gif';
-    let img1 = '../img/admin/enabled.gif';
-                
+    // TODO que es esto?
+    const img0 = '../img/admin/disabled.gif';
+    const img1 = '../img/admin/enabled.gif';
+
     $(document).on('click','#btnSubmit',function(){
         let name = $('#name').val();
         let age = $('#age').val();
@@ -81,7 +82,6 @@ $(document).ready(function(){
         let date = $('#mod_date').val();
         let arrayData = [id, name, age, date];
         let jsonString = JSON.stringify(arrayData);
-        //send the data as a JSON string
 
         let ajaxRequest = callApi('modifyValues',jsonString);
 
@@ -108,7 +108,6 @@ $(document).ready(function(){
             return addInfo('warning','User id not found in the database, please try again');
         }
         let jsonString = JSON.stringify(id);
-        //send the data as a JSON string
 
         ajaxRequest = callApi('findUser',jsonString);
         
@@ -136,7 +135,6 @@ $(document).ready(function(){
         let date = $(this).closest("tr").find('td:nth-child(7)');
         let image = $(this).closest("tr").find('td:nth-child(8) img');
         let jsonString = JSON.stringify(id);
-        //send the data as a JSON string
 
         let ajaxRequest = callApi('changeRemoved',jsonString);
         ajaxRequest.done(function(data){
