@@ -56,6 +56,7 @@ class Od_first extends Module{
         if (get_class($this->context->controller) == 'AdminOdFirstController'){
             $this->context->controller->addJs(_PS_MODULE_DIR_.'od_first/views/js/odjs.js');
             $this->context->controller->addCSS(_PS_MODULE_DIR_.'od_first/views/css/styles.css');
+            $this->context->controller->addCSS('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css');
         }
         
     }
