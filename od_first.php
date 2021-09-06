@@ -53,8 +53,11 @@ class Od_first extends Module{
         && $this->unregisterHook('actionAdminControllerSetMedia');
     }
     public function hookActionAdminControllerSetMedia(){
-        $this->context->controller->addJs(_PS_MODULE_DIR_.'od_first/views/js/odjs.js');
-        $this->context->controller->addCSS(_PS_MODULE_DIR_.'od_first/views/css/styles.css');
+        if (get_class($this->context->controller) == 'AdminOdFirstController'){
+            $this->context->controller->addJs(_PS_MODULE_DIR_.'od_first/views/js/odjs.js');
+            $this->context->controller->addCSS(_PS_MODULE_DIR_.'od_first/views/css/styles.css');
+        }
+        
     }
     /**
      * Redirect to the admin controller link
