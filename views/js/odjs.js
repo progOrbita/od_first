@@ -23,11 +23,8 @@ function changeToError(value){
     $(value).removeClass("bg-fine");
     $(value).addClass("bg-error");
 }
-$(document).ready(function(){
 
-    // TODO que es esto?
-    const img0 = '../img/admin/disabled.gif';
-    const img1 = '../img/admin/enabled.gif';
+$(document).ready(function(){
 
     $(document).on('click','#btnSubmit',function(){
         let name = $('#name').val();
@@ -127,6 +124,21 @@ $(document).ready(function(){
             });
         });
     });
+    
+    //Initialize icons
+    let a = $('td:nth-child(8) img');
+    Object.values(a).forEach(element => {
+        if(element.alt == 'disabled.gif'){
+            element.className += 'bi bi-x-lg';
+        }
+        if(element.alt == 'enabled.gif'){
+            element.className += 'bi bi-check-lg';
+        }
+    });
+    a.removeAttr('src');
+    a.removeAttr('alt');
+    a.removeAttr('title');
+
     //if the check/X image is pressed, change the element.
     $('td:nth-child(8) img').click(function(){
         let id = $(this).closest("tr").find('td:first-child').html().trim();
@@ -141,15 +153,18 @@ $(document).ready(function(){
             let jsonData = JSON.parse(data);
             if(jsonData === false){
             return addInfo('danger','Error, process couldnt be done');
+
             }
             let now = new Date().toLocaleString();
             if(jsonData === "1"){
-                image.attr('src',img1);
+                image.removeClass('bi bi-x-lg');
+                image.addClass('bi bi-check-lg');
                 mod_date.html(now);
                 date.html(now);
             }
             else{
-                image.attr('src',img0);
+                image.removeClass('bi bi-check-lg');
+                image.addClass('bi bi-x-lg');
                 mod_date.html(now);
                 date.html('--');
             }
