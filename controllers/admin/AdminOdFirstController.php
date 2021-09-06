@@ -94,12 +94,6 @@ class AdminOdFirstController extends ModuleAdminController{
      * Display the entire content of the admin page.
      */
     public function displayTabs(){
-        $this->context->controller->addJS(
-            _PS_MODULE_DIR_.'od_first/views/js/odjs.js'
-            );
-        $this->context->controller->addCSS(
-            _PS_MODULE_DIR_.'od_first/views/css/styles.css'
-        );
         $this->checkOperations();
         $output = '';
         $navHeader = $this->generateNavHead();
