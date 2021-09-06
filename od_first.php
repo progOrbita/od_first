@@ -39,8 +39,8 @@ class Od_first extends Module{
     public function install(){
             return
             Resources::generateTable()
-            && $this->registerHook('actionAdminControllerSetMedia')
-            && parent::install();
+            && parent::install()
+            && $this->registerHook('actionAdminControllerSetMedia');
     }
     /**
      * Unistall the module
@@ -49,8 +49,8 @@ class Od_first extends Module{
         
         return 
         Resources::removeTable()
-        && $this->unregisterHook('actionAdminControllerSetMedia')
-        && parent::uninstall();
+        && parent::uninstall()
+        && $this->unregisterHook('actionAdminControllerSetMedia');
     }
     public function hookActionAdminControllerSetMedia(){
         $this->context->controller->addJs(_PS_MODULE_DIR_.'od_first/views/js/odjs.js');
