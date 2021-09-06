@@ -344,6 +344,9 @@ class AdminOdFirstController extends ModuleAdminController{
             return $value;
         }
     }
+    /**
+     * Generates first tab fields
+     */
     public function formFields(){
         $form = [
             'form' => [
@@ -390,6 +393,9 @@ class AdminOdFirstController extends ModuleAdminController{
         ];
         return $form;
     }
+    /**
+     * Generates second tab fields
+     */
     public function tableFields(){
         $table_list = array(
             'ID' => array(
@@ -450,6 +456,9 @@ class AdminOdFirstController extends ModuleAdminController{
         );
         return $table_list;
     }
+    /**
+     * Generate third tab fields
+     */
     public function modifyFields(){
         $modFields = [
             'form' => [
@@ -517,6 +526,9 @@ class AdminOdFirstController extends ModuleAdminController{
         ];
         return $modFields;
     }
+    /**
+     * return the value of the field of the database given the id.
+     */
     public function modifyValue(string $tableField, int $id){
         return Db::getInstance()->getValue('SELECT '.$tableField.' FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
     }
