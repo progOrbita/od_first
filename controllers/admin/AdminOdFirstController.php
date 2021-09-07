@@ -235,17 +235,19 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->submit_action = 'submit' . $this->name;
         $helper->table = $this->table;
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
-
         $id = $this->Modify_id;
         if($id != null){
+        $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
+        
             $helper->fields_value = array(
-                'mod_id' => $id,
-                'mod_name' => $this->modifyValue('name',$id),
-                'mod_age' => $this->modifyValue('age',$id),
-                'mod_date' => $this->modifyValue('date',$id),
-                'mod_creation_date' => $this->modifyValue('creation_date',$id),
-                'mod_mod_date' => $this->modifyValue('mod_date',$id),
-                'mod_del_date' => $this->modifyValue('del_date',$id),
+                'mod_id' => $query_mod[0]['ID'],
+                'mod_name' => $query_mod[0]['name'],
+                'mod_age' => $query_mod[0]['age'],
+                'mod_date' => $query_mod[0]['date'],
+                'mod_creation_date' => $query_mod[0]['creation_date'],
+                'mod_mod_date' => $query_mod[0]['mod_date'],
+                'mod_del_date' => $query_mod[0]['del_date'],
+
             );
         }
         Media::addJsDef(array(
@@ -521,10 +523,7 @@ class AdminOdFirstController extends ModuleAdminController{
         ];
         return $modFields;
     }
-    /**
-     * return the value of the field of the database given the id.
-     */
-    public function modifyValue(string $tableField, int $id){
-        return Db::getInstance()->getValue('SELECT '.$tableField.' FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
+    public function checkIcons($value){
+        return ($value==0) ? '<i class="bi bi-x-lg text-danger"></i>' : '<i class="bi bi-check-lg text-success"></i>';
     }
 }
