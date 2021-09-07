@@ -228,7 +228,7 @@ class AdminOdFirstController extends ModuleAdminController{
     public function displayModify(){
         
         $helper = new HelperForm();
-
+        
         $helper->currentIndex = AdminController::$currentIndex;
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
         $helper->name_controller = $this->name;
@@ -265,11 +265,11 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     [
                     'type' => 'text',
-                    'label' => 'id',
+                    'label' => 'ID',
                     'name' => 'find_id',
                     'class' => 'id',
                     'size' => '10',
-                    'required' => true,
+                    'desc' => 'Enter ID',
                     ],
                 ], 
                 'buttons' => [
@@ -277,7 +277,7 @@ class AdminOdFirstController extends ModuleAdminController{
                     'type' => 'button',
                     'id' => 'btnFind',
                     'name' => 'findButton',
-                    'title' => 'find user',
+                    'title' => 'Find User',
                     ],
                 ],
             ],
@@ -305,7 +305,7 @@ class AdminOdFirstController extends ModuleAdminController{
             <ul class="nav nav-tabs" id="nav-tab" role="tablist">';
                 //**Changes active from the li
                 ($this->currentTab == 1) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
-                $output .= '<a class="nav-link" id="adding-tab" data-toggle="tab" href="#adding" role="tab" aria-controls="adding" aria-selected="true">Add users</a>
+                $output .= '<a class="nav-link" id="form-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form" aria-selected="true">Add users</a>
                 </li>';
                 ($this->currentTab == 2) ? $output .= '<li class="nav-item active">' : $output .= '<li class="nav-item">';
                 $output .= '<a class="nav-link" id="table-tab" data-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false">Views users</a>
@@ -324,7 +324,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $navBody = '';
 
         ($this->currentTab == 1) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
-            $navBody .= '" role="tabpanel" id="adding" aria-labelledby="adding-tab" >'.$this->displayForm().'</div>';
+            $navBody .= '" role="tabpanel" id="form" aria-labelledby="form-tab" >'.$this->displayForm().'</div>';
         ($this->currentTab == 2) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
             $navBody .= '<div class="tab-pane" role="tabpabel" id="table" aria-labelledby="table-tab">'.$this->displayTable().'</div>';
         ($this->currentTab == 3) ? $navBody .= '<div class="tab-pane active"' : $navBody .= '<div class="tab-pane"' ;
@@ -353,22 +353,19 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     [
                     'type' => 'text',
-                    'label' => 'naming',
-                    'name' => 'form_name',
-                    'required' => true,
+                    'label' => 'Name',
+                    'name' => 'name',
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'numbing',
-                    'name' => 'form_age',
-                    'required' => true,
-                    'desc' => 'only numbers accepted',
+                    'label' => 'Age',
+                    'name' => 'age',
+                    'desc' => 'Only numbers accepted',
                     ],
                     [
                     'type' => 'date',
-                    'label' => 'dating',
-                    'name' => 'form_date',
-                    'required' => true,
+                    'label' => 'Birth date',
+                    'name' => 'date',
                     ],
                 ],
                 'buttons' => [
@@ -376,14 +373,14 @@ class AdminOdFirstController extends ModuleAdminController{
                     'type' => 'button',
                     'id' => 'btnSubmit',
                     'name' => 'commonButton',
-                    'title' => 'add user',
+                    'title' => 'Add user',
                     ],
                     [
                     'type' => 'button',
                     'id' => 'btnVerify',
                     'class' => 'btn btn-success',
                     'name' => 'btnVerify',
-                    'title' => 'verify it'
+                    'title' => 'Verify fields'
                     ],
                 ],
             ],
@@ -404,14 +401,14 @@ class AdminOdFirstController extends ModuleAdminController{
                 'filter_type' => 'int',
             ),
             'name' => array(
-                'title' => 'name',
+                'title' => 'Name',
                 'width' => 100,
                 'type' => 'text',
                 'orderby' => true,
                 'havingFilter' => true,
             ),
             'age' => array(
-                'title' => 'age',
+                'title' => 'Age',
                 'width' => 100,
                 'type' => 'number',
                 'orderby' => true,
@@ -421,27 +418,27 @@ class AdminOdFirstController extends ModuleAdminController{
                 'callback_object' => $this,
             ),
             'date' => array(
-                'title' => 'date',
+                'title' => 'Date',
                 'width' => 150,
                 'type' => 'date',
             ),
             'creation_date' => array(
-                'title' => 'creation',
+                'title' => 'Creation date',
                 'width' => 200,
                 'type' => 'datetime',
             ),
             'mod_date' => array(
-                'title' => 'modificacion date',
+                'title' => 'Modification date',
                 'width' => 200,
                 'type' => 'datetime',
             ),
             'del_date' => array(
-                'title' => 'delete date',
+                'title' => 'Remove date',
                 'width' => 200,
                 'type' => 'datetime',
             ),
             'removed' => array(
-                'title' => 'deleted',
+                'title' => 'Deleted',
                 'width' => 200,
                 'type' => 'bool',
                 'icon' => array(
@@ -462,21 +459,21 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     [
                     'type' => 'text',
-                    'label' => 'id',
+                    'label' => 'ID',
                     'name' => 'mod_id',
                     'class' => 'id',
                     'disabled' => true,
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'naming',
+                    'label' => 'Name',
                     'name' => 'mod_name',
                     'class' => 'name',
                     'required' => true,
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'numbing',
+                    'label' => 'Age',
                     'name' => 'mod_age',
                     'class' => 'age',
                     'required' => true,
@@ -484,14 +481,14 @@ class AdminOdFirstController extends ModuleAdminController{
                     ],
                     [
                     'type' => 'date',
-                    'label' => 'dating',
+                    'label' => 'Date',
                     'name' => 'mod_date',
                     'class' => 'date',
                     'required' => true,
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'created at',
+                    'label' => 'Created at',
                     'name' => 'mod_creation_date',
                     'class' => 'creation_date',
                     'disabled' => true,
@@ -516,7 +513,7 @@ class AdminOdFirstController extends ModuleAdminController{
                     'type' => 'button',
                     'id' => 'btnEdit',
                     'name' => 'commonButton',
-                    'title' => 'update user',
+                    'title' => 'Update user',
                     ],
                 ],
             ],
