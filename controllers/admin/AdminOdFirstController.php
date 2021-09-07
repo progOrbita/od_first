@@ -230,6 +230,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->submit_action = 'submit' . $this->name;
         $helper->table = $this->table;
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
+        //Avoid obtaining the ID for the modify tab when deleting an user
         if(!Tools::getIsset('deleteodfirst')){
             $id = Tools::getValue('ID');
         }

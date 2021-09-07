@@ -1,11 +1,12 @@
 function addInfo(type, value){
-    $('#alerts').remove();
+    $('.alert').remove();
     $('#content').prepend(`<div id="alerts">
     <p class="alert alert-${type}">${value}
     <button type="button" class="close" data-dismiss="alert">x</button>
     </p></div>`);
 }
 function callApi(ajaxAction,ajaxString){
+    $('.alert').remove();
     return $.ajax({
         url: admin_od,
         data: {
@@ -26,6 +27,9 @@ function changeToError(value){
 
 $(document).ready(function(){
     let currentNav = "";
+    /**
+     * Button Add 1st tab
+     */
     $(document).on('click','#btnSubmit',function(){
         let name = $('#form_name').val();
         let age = $('#form_age').val();
@@ -48,6 +52,9 @@ $(document).ready(function(){
                 }
         });
     });
+    /**
+     * Button verify 1st tab
+     */
     $(document).on('click','#btnVerify',function(){
         let name = $('#form_name').val();
        let age = $('#form_age').val();
@@ -72,6 +79,9 @@ $(document).ready(function(){
         });
 
     });
+    /**
+     * Button Update 3rd tab
+     */
     $(document).on('click','#btnEdit',function(){
         let id = $('#mod_id').val();
         let name = $('#mod_name').val();
@@ -99,6 +109,9 @@ $(document).ready(function(){
 				}
         });
     });
+    /**
+     * Button find 3rd tab
+     */
     $(document).on('click','#btnFind',function(){
         let id = parseInt($('#find_id').val());
         if(isNaN(id)){
