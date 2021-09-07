@@ -27,9 +27,9 @@ function changeToError(value){
 $(document).ready(function(){
 
     $(document).on('click','#btnSubmit',function(){
-        let name = $('#name').val();
-        let age = $('#age').val();
-        let date = $('#date').val();
+        let name = $('#form_name').val();
+        let age = $('#form_age').val();
+        let date = $('#form_date').val();
         let saveArray = [name,age,date];
         let saveJson = JSON.stringify(saveArray);
         
@@ -37,21 +37,21 @@ $(document).ready(function(){
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
                 if(typeof(jsonData) === 'object'){
-                    jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-				    jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                    jsonData.good.forEach(element => changeToSuccess("input[name='form_"+element+"']"));
+				    jsonData.error.forEach(element => changeToError("input[name='form_"+element+"']"));
                 }
                 else{
-                    changeToSuccess($("input[name='name']"));
-                    changeToSuccess($("input[name='age']"));
-                    changeToSuccess($("input[name='date']"));
+                    changeToSuccess($("input[name='form_name']"));
+                    changeToSuccess($("input[name='form_age']"));
+                    changeToSuccess($("input[name='form_date']"));
                     addInfo('info','User inserted');
                 }
         });
     });
     $(document).on('click','#btnVerify',function(){
-        let name = $('#name').val();
-       let age = $('#age').val();
-       let date = $('#date').val();
+        let name = $('#form_name').val();
+       let age = $('#form_age').val();
+       let date = $('#form_date').val();
         let verifyArray = [name,age,date];
         let stringJson = JSON.stringify(verifyArray);
 
@@ -60,14 +60,14 @@ $(document).ready(function(){
         ajaxRequest.done(function(data){
             let jsonData = JSON.parse(data);
             if(jsonData.error.length !== 0){
-                jsonData.good.forEach(element => changeToSuccess("input[name='"+element+"']"));
-                jsonData.error.forEach(element => changeToError("input[name='"+element+"']"));
+                jsonData.good.forEach(element => changeToSuccess("input[name='form_"+element+"']"));
+                jsonData.error.forEach(element => changeToError("input[name='form_"+element+"']"));
                 addInfo('info','Wrong values');
             }
             else{
-                changeToSuccess($("input[name='name']"));
-                changeToSuccess($("input[name='age']"));
-                changeToSuccess($("input[name='date']"));
+                changeToSuccess($("input[name='form_name']"));
+                changeToSuccess($("input[name='form_age']"));
+                changeToSuccess($("input[name='form_date']"));
             }
         });
 

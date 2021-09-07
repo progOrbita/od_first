@@ -352,20 +352,20 @@ class AdminOdFirstController extends ModuleAdminController{
                     [
                     'type' => 'text',
                     'label' => 'naming',
-                    'name' => 'name',
+                    'name' => 'form_name',
                     'required' => true,
                     ],
                     [
                     'type' => 'text',
                     'label' => 'numbing',
-                    'name' => 'age',
+                    'name' => 'form_age',
                     'required' => true,
                     'desc' => 'only numbers accepted',
                     ],
                     [
                     'type' => 'date',
                     'label' => 'dating',
-                    'name' => 'date',
+                    'name' => 'form_date',
                     'required' => true,
                     ],
                 ],
