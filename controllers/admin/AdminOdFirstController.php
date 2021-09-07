@@ -110,9 +110,6 @@ class AdminOdFirstController extends ModuleAdminController{
      * Checks for various submits or actions are pressed.
      */
     public function checkOperations(){
-        
-        $this->currentTab = 1;
-        
         if(Tools::isSubmit('submitResetodfirst')){
             $this->context->controller->informations[] = "Filters reseted";
             //unset the filters
@@ -121,7 +118,7 @@ class AdminOdFirstController extends ModuleAdminController{
         //Delete(Remove) and update the table
         else if(Tools::isSubmit('deleteodfirst')){            
             $done = Resources::deleteUser($_GET['ID']);
-            setcookie('navSelected',2);
+            
             if($done == 'removed'){
                 $this->context->controller->informations[] = "User is already removed";
             }
@@ -131,16 +128,15 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         //If the search filter, the arrow to order any field, or page is selected load the table tab as currentTab
         else if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
-            setcookie('navSelected',2);
-            $this->currentTab = 2;
-            echo 'cookie '.$_COOKIE['navSelected'];
+            
         }
         //If modify button is pressed
         else if(Tools::isSubmit('updateodfirst')){
             $this->Modify_id = Tools::getValue('ID');
             setcookie('navSelected',3);
-            $this->currentTab = 3;
-            unset($_GET['updateodfirst']);
+            $url = $_SERVER['REQUEST_URI'];
+            $newUrl = preg_replace('/(\\?|&)updateodfirst=.*?(&|$)/','',$url);
+            header("Location: ".$newUrl);
         }
         if(isset($_COOKIE['navSelected'])){
             $this->currentTab = $_COOKIE['navSelected'];
@@ -225,7 +221,7 @@ class AdminOdFirstController extends ModuleAdminController{
      * @return string string containing the entire tab
      */
     public function displayModify(){
-        
+
         $helper = new HelperForm();
         
         $helper->currentIndex = AdminController::$currentIndex;
@@ -234,9 +230,12 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->submit_action = 'submit' . $this->name;
         $helper->table = $this->table;
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
-        $id = $this->Modify_id;
+        if(!Tools::getIsset('deleteodfirst')){
+            $id = Tools::getValue('ID');
+        }
+        
         if($id != null){
-        $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
+            $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
         
             $helper->fields_value = array(
                 'mod_id' => $query_mod[0]['ID'],
