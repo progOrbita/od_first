@@ -130,6 +130,7 @@ class AdminOdFirstController extends ModuleAdminController{
         else if(Tools::isSubmit('updateodfirst')){
             $this->Modify_id = Tools::getValue('ID');
             setcookie('navSelected',3);
+            //obtain the url, removes the updateodfirst and return the header without it
             $url = $_SERVER['REQUEST_URI'];
             $newUrl = preg_replace('/(\\?|&)updateodfirst=.*?(&|$)/','',$url);
             header("Location: ".$newUrl);
