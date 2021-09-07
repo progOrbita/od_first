@@ -56,7 +56,7 @@ class Resources{
     public static function deleteUser(int $id){
         $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
         if($checkRemoved==1){
-            return 'removed';
+            return false;
         }
         return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
     }
