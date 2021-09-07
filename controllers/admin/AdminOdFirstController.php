@@ -37,7 +37,7 @@ class AdminOdFirstController extends ModuleAdminController{
     public function ajaxProcessFindUser(){
         $user_id = json_decode($_GET['dataString']);
         $result = Resources::findUser($user_id);
-        echo json_encode($result);
+        $this->ajaxDie(json_encode($result));
     }
     /**
      * Process the verify button which verify the add users fields
@@ -74,7 +74,6 @@ class AdminOdFirstController extends ModuleAdminController{
                 setcookie('navSelected',1);
                 break;
         }
-        echo json_encode($this->currentTab);
     }
     /**
      * Generate content when loading the controller
