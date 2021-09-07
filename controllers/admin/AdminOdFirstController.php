@@ -368,12 +368,13 @@ class AdminOdFirstController extends ModuleAdminController{
                     'type' => 'button',
                     'id' => 'btnSubmit',
                     'name' => 'commonButton',
+                    'class' => 'btn-success',
                     'title' => 'Add user',
                     ],
                     [
                     'type' => 'button',
                     'id' => 'btnVerify',
-                    'class' => 'btn btn-success',
+                    'class' => 'btn-info',
                     'name' => 'btnVerify',
                     'title' => 'Verify fields'
                     ],
@@ -514,6 +515,6 @@ class AdminOdFirstController extends ModuleAdminController{
         return $modFields;
     }
     public function checkIcons($value){
-        return ($value==0) ? '<i class="bi bi-x-lg text-danger"></i>' : '<i class="bi bi-check-lg text-success"></i>';
+        return ($value==0) ? '<i class="bi bi-x-lg text-danger font-medium"></i>' : '<i class="bi bi-check-lg text-success font-medium"></i>';
     }
 }
