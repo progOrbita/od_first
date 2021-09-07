@@ -70,9 +70,6 @@ class AdminOdFirstController extends ModuleAdminController{
             case '#modify':
                 setcookie('navSelected',3);
                 break;
-            default:
-                setcookie('navSelected',1);
-                break;
         }
     }
     /**
