@@ -43,12 +43,13 @@ $(document).ready(function(){
                 if(typeof(jsonData) === 'object'){
                     jsonData.good.forEach(element => changeToSuccess("input[name='form_"+element+"']"));
 				    jsonData.error.forEach(element => changeToError("input[name='form_"+element+"']"));
+                    addInfo('warning','incorrect values, check them again');
                 }
                 else{
                     changeToSuccess($("input[name='form_name']"));
                     changeToSuccess($("input[name='form_age']"));
                     changeToSuccess($("input[name='form_date']"));
-                    addInfo('info','User inserted');
+                    location.reload();
                 }
         });
     });
@@ -101,7 +102,7 @@ $(document).ready(function(){
                 if(jsonData === true){
                     let now = new Date().toLocaleString();
                     $('#mod_mod_date').val(now);
-                    addInfo('success','data updated');
+                    location.reload();
                 }
 				//if there's an error in the query
 				if(jsonData === false){
