@@ -1,12 +1,12 @@
 function addInfo(type, value){
-    $('.alert').remove();
+    $('#alerts').remove();
     $('#content').prepend(`<div id="alerts">
     <p class="alert alert-${type}">${value}
     <button type="button" class="close" data-dismiss="alert">x</button>
     </p></div>`);
 }
 function callApi(ajaxAction,ajaxString){
-    $('.alert').remove();
+    $('#alerts').remove();
     return $.ajax({
         url: admin_od,
         data: {
@@ -26,6 +26,7 @@ function changeToError(value){
 }
 
 $(document).ready(function(){
+    $('#odFirst_form').attr('autocomplete','off');
     let currentNav = "";
     /**
      * Button Add 1st tab
