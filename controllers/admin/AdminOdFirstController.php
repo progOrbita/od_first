@@ -61,7 +61,7 @@ class AdminOdFirstController extends ModuleAdminController{
     public function ajaxProcessCurrentNav(){
         $jsonData = json_decode($_GET['dataString']);
         switch ($jsonData){
-            case '#adding':
+            case '#form':
                 setcookie('navSelected',1);
                 break;
             case '#table':
