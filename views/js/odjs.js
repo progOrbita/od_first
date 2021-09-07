@@ -25,7 +25,7 @@ function changeToError(value){
 }
 
 $(document).ready(function(){
-
+    let currentNav = "";
     $(document).on('click','#btnSubmit',function(){
         let name = $('#form_name').val();
         let age = $('#form_age').val();
@@ -160,7 +160,10 @@ $(document).ready(function(){
     //for nav head
     $(document).on('click','li a',function(){
         let nav = $(this).prop('hash');
-        let navId = JSON.stringify(nav);
-        callApi('currentNav',navId);
+        if(currentNav !== nav){
+            currentNav = nav;
+            let navId = JSON.stringify(nav);
+            callApi('currentNav',navId);
+        }
     });
 });
