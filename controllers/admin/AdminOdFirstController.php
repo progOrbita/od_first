@@ -441,10 +441,8 @@ class AdminOdFirstController extends ModuleAdminController{
                 'title' => 'Deleted',
                 'width' => 200,
                 'type' => 'bool',
-                'icon' => array(
-                    0 =>  'disabled.gif',
-                    1 => 'enabled.gif',
-                ),
+                'callback' => 'checkIcons',
+                'callback_object' => $this,
                 'filter_type' => 'bool',
             ),
         );

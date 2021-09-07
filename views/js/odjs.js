@@ -124,28 +124,14 @@ $(document).ready(function(){
             });
         });
     });
-    
-    //Initialize icons
-    let a = $('td:nth-child(8) img');
-    Object.values(a).forEach(element => {
-        if(element.alt == 'disabled.gif'){
-            element.className = 'bi bi-x-lg';
-        }
-        if(element.alt == 'enabled.gif'){
-            element.className = 'bi bi-check-lg';
-        }
-    });
-    a.removeAttr('src');
-    a.removeAttr('alt');
-    a.removeAttr('title');
 
-    //if the check/X image is pressed, change the element.
-    $('td:nth-child(8) img').click(function(){
+    //if the check/X icon is pressed, change the element.
+    $('td:nth-child(8) i').click(function(){
         let id = $(this).closest("tr").find('td:first-child').html().trim();
         //Obtain the delete date and image column
         let mod_date = $(this).closest("tr").find('td:nth-child(6)');
         let date = $(this).closest("tr").find('td:nth-child(7)');
-        let image = $(this).closest("tr").find('td:nth-child(8) img');
+        let icon = $(this).closest("tr").find('td:nth-child(8) i');
         let jsonString = JSON.stringify(id);
 
         let ajaxRequest = callApi('changeRemoved',jsonString);
@@ -157,14 +143,14 @@ $(document).ready(function(){
             }
             let now = new Date().toLocaleString();
             if(jsonData === "1"){
-                image.removeClass('bi bi-x-lg');
-                image.addClass('bi bi-check-lg');
+                icon.removeClass('bi bi-x-lg text-danger');
+                icon.addClass('bi bi-check-lg text-success');
                 mod_date.html(now);
                 date.html(now);
             }
             else{
-                image.removeClass('bi bi-check-lg');
-                image.addClass('bi bi-x-lg');
+                icon.removeClass('bi bi-check-lg text-success');
+                icon.addClass('bi bi-x-lg text-danger');
                 mod_date.html(now);
                 date.html('--');
             }
