@@ -100,9 +100,9 @@ $(document).ready(function(){
         });
     });
     $(document).on('click','#btnFind',function(){
-        let id = $('#find_id').val();
-        if(id === ""){
-            return addInfo('warning','User id not found in the database, please try again');
+        let id = parseInt($('#find_id').val());
+        if(isNaN(id)){
+            return addInfo('warning','User id not found in the database, please check again');
         }
         let jsonString = JSON.stringify(id);
 
