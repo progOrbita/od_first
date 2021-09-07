@@ -165,18 +165,18 @@ class Resources{
     public static function validate (array $array_verify){
         $arr = ['error' => [], 'good' => []];
             foreach ($array_verify as $keyVal => $value) {
-                $cadenaVacia = trim($value);
-                if(empty($cadenaVacia)){
-                    array_push($arr['error'], $keyVal);
-                }
-                if($keyVal=='age'){
+            switch($keyVal){
+                case 'name':
+                    !empty(trim($value)) ? array_push($arr['good'],$keyVal) : array_push($arr['error'], $keyVal);
+                    break;
+
+                case 'age':
                     Validate::isInt($value) ? array_push($arr['good'],$keyVal) : array_push($arr['error'], $keyVal);
-                }
-                if($keyVal=='date'){
+                    break;
+                
+                case 'date':
                     Validate::isDate($value) ? array_push($arr['good'],$keyVal) : array_push($arr['error'], $keyVal);
-                }
-                else{
-                    array_push($arr['good'],$keyVal);
+                    break;
                 }
             }
         return $arr;
