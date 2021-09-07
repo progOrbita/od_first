@@ -115,8 +115,7 @@ class AdminOdFirstController extends ModuleAdminController{
         //Delete(Remove) and update the table
         else if(Tools::isSubmit('deleteodfirst')){            
             $done = Resources::deleteUser($_GET['ID']);
-            
-            if($done == 'removed'){
+            if($done == false){
                 $this->context->controller->informations[] = "User is already removed";
             }
             else{
