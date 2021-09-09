@@ -51,7 +51,9 @@ $(document).ready(function(){
                     changeToSuccess($("input[name='form_name']"));
                     changeToSuccess($("input[name='form_age']"));
                     changeToSuccess($("input[name='form_date']"));
-                    location.reload();
+                    setTimeout(function(){
+                        location.reload();}, 1000);
+                    return addInfo('success','User have been added');
                 }
         });
     });
@@ -104,7 +106,9 @@ $(document).ready(function(){
                 if(jsonData === true){
                     let now = new Date().toLocaleString();
                     $('#mod_mod_date').val(now);
-                    location.reload();
+                    setTimeout(function(){
+                        location.reload();}, 1000);
+                    return addInfo('success','Values modified');
                 }
 				//if there's an error in the query
 				if(jsonData === false){
