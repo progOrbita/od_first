@@ -27,6 +27,7 @@ function changeToError(value){
 
 $(document).ready(function(){
     $('#od_first_form').attr('autocomplete','off');
+    $('#od_first_form_submit_btn_2 i').remove();
     let currentNav = "";
     /**
      * Button Add 1st tab
