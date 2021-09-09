@@ -11,7 +11,6 @@ class AdminOdFirstController extends ModuleAdminController{
      * $this->informations
      */
     protected $currentTab = 1;
-    protected $modify_Id;
     public function __construct(){
         $this->bootstrap = true;
         $this->name = 'odfirst';
@@ -108,13 +107,13 @@ class AdminOdFirstController extends ModuleAdminController{
      * Checks for various submits or actions are pressed.
      */
     public function checkOperations(){
-        if(Tools::isSubmit('submitResetod_first')){
+        if(Tools::isSubmit('submitResetodfirst')){
             $this->context->controller->informations[] = "Filters reseted";
             //unset the filters
             $this->processResetFilters();
         }
         //Delete(Remove) and update the table
-        else if(Tools::isSubmit('deleteod_first')){            
+        else if(Tools::isSubmit('deleteodfirst')){            
             $done = Resources::deleteUser($_GET['ID']);
             if($done == false){
                 $this->context->controller->informations[] = "User is already removed";
@@ -123,13 +122,8 @@ class AdminOdFirstController extends ModuleAdminController{
                 ($done == true) ? $this->context->controller->informations[] = "User removed" : $this->context->controller->errors[] = "Error processing the information (query error)";
             }
         }
-        //If the search filter, the arrow to order any field, or page is selected load the table tab as currentTab
-        else if(Tools::isSubmit('submitFilterod_first') || Tools::getIsset('page')){
-            
-        }
         //If modify button is pressed
-        else if(Tools::isSubmit('updateod_first')){
-            $this->Modify_id = Tools::getValue('ID');
+        else if(Tools::isSubmit('updateodfirst')){
             setcookie('navSelected',3);
             //obtain the url, removes the updateodfirst and return the header without it
             $url = $_SERVER['REQUEST_URI'];
@@ -167,8 +161,7 @@ class AdminOdFirstController extends ModuleAdminController{
     public function displayTable(){
         $query = 'SELECT * FROM `'._DB_PREFIX_.$this->table.'`';
         //If there's no filters, query return everything (don't enter here)
-        if(Tools::isSubmit('submitFilterod_first')){
-            
+        if(Tools::isSubmit('submitFilter')){
             $whereStr = Resources::getFilters($_POST);
             //search is pressed but all the field are empty
             if(!is_null($whereStr)){
@@ -176,9 +169,9 @@ class AdminOdFirstController extends ModuleAdminController{
             }
         }
         //If the arrows to order the table are pressed, order the table.
-        if(Tools::getIsset('od_firstOrderby')){
-        $orderDir = $this->checkOrderDirection(Tools::getValue('od_firstOrderway','desc'));
-        $order = $this->checkOrderBy(Tools::getValue('od_firstOrderby','ID'));
+        if(Tools::getIsset('odfirstOrderby')){
+        $orderDir = $this->checkOrderDirection(Tools::getValue('odfirstOrderway','desc'));
+        $order = $this->checkOrderBy(Tools::getValue('odfirstOrderby','ID'));
         $ordering = ' ORDER BY '.$order.' '.$orderDir;
         $query .= $ordering;
         }
@@ -193,7 +186,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->show_toolbar = true;
         $helper->shopLinkType = '';
         $helper->simple_header = false;
-        $helper->table = $this->table;
+        $helper->table = $this->name;
         $helper->title = 'User listed';
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
 
@@ -231,7 +224,6 @@ class AdminOdFirstController extends ModuleAdminController{
         if(!Tools::getIsset('deleteodfirst')){
             $id = Tools::getValue('ID');
         }
-        
         if($id != null){
             $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'od_first WHERE ID='.$id);
         
@@ -336,7 +328,7 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     Fields::createFormField('text','Name','form_name'),
                     Fields::createFormField('text','Age','form_age','Only numbers accepted'),
-                    Fields::createFormField('date','Birth_date','form_date'),
+                    Fields::createFormField('date','Birth date','form_date'),
                 ],
                 'buttons' => [
                     Fields::createButton('btnSave','btnSave','Add user','btn-success'), // TODO al guardar no muestra que se haya guardado
@@ -363,10 +355,10 @@ class AdminOdFirstController extends ModuleAdminController{
                 'callback' => 'checkAge',
                 'callback_object' => $this,
             ),
-            'date_birth' => Fields::createTableField('Birth date',150,'date','','',true),
-            'date_add' => Fields::createTableField('Add date',200,'datetime','','',true),
-            'date_upd' => Fields::createTableField('Update date',200,'datetime','','',true),
-            'date_del' => Fields::createTableField('Remove date',200,'datetime','','',true),
+            'date_birth' => Fields::createTableField('Date',150,'date'),
+            'date_add' => Fields::createTableField('Creation date',200,'datetime'),
+            'date_upd' => Fields::createTableField('Update date',200,'datetime'),
+            'date_del' => Fields::createTableField('Remove date',200,'datetime'),
             'removed' => array(
                 'title' => 'Deleted',
                 'width' => 200,
@@ -387,11 +379,11 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     Fields::createFormField('text','ID','mod_id','','id',true),
                     Fields::createFormField('text','Name','mod_name','','name',false,true),
-                    Fields::createFormField('text','Age','mod_age','only numbers accepted','age',false,true),
-                    Fields::createFormField('date','Birth date','mod_date','','date',false,true),
-                    Fields::createFormField('text','Added at','mod_date_add','','date_add',true),
+                    Fields::createFormField('text','Age','mod_age','Only numbers accepted','age',false,true),
+                    Fields::createFormField('date','Date','mod_date','','date','',true),
+                    Fields::createFormField('text','Added at','mod_date_add','','creation_date',true),
                     Fields::createFormField('text','Last updated','mod_date_upd','','date_upd',true),
-                    Fields::createFormField('text','Removed at','mod_date_del','','date_del',true),
+                    Fields::createFormField('text','Deleted at','mod_date_del','','date_del',true),
                 ],
                 'buttons' => [
                     Fields::createButton('btnEdit','btnEdit','Update user'),
