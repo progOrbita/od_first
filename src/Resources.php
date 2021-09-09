@@ -56,7 +56,7 @@ class Resources{
     public static function deleteUser(int $id){
         $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'od_first WHERE ID="'.$id.'"');
         if($checkRemoved==1){
-            return false;
+            return 'error';
         }
         return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'od_first SET removed=1, date_upd=NOW(), date_del=NOW() WHERE ID="'.$id.'"');
     }
@@ -143,7 +143,7 @@ class Resources{
     * Drop table when uninstalling the module
     */
     public static function removeTable(){
-        $dropQuery = "DROP TABLE IF EXISTS"._DB_PREFIX_."`_od_first` ";
+        $dropQuery = "DROP TABLE IF EXISTS `ps_od_first` ";
         return Db::getInstance()->execute($dropQuery);
     }
     /**
