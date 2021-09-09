@@ -223,6 +223,9 @@ class AdminOdFirstController extends ModuleAdminController{
         if(!Tools::getIsset('deleteodfirst')){
             $id = Tools::getValue('ID');
         }
+        if(Tools::getIsset('submitodfirst')){
+            $id = Tools::getValue('find_id');
+        }
         if($id != null){
             $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'od_first WHERE ID='.$id);
         
@@ -251,9 +254,10 @@ class AdminOdFirstController extends ModuleAdminController{
                 'input' => [
                     Fields::createFormField('text','ID','find_id','Enter ID','id'),
                 ], 
-                'buttons' => [
-                    Fields::createButton('btnFind','findButton','Find User'),
-                ],
+                'submit' => [
+                    'title' => 'Find user',
+                    'class' => 'btn btn-default pull-left',
+                ]
             ],
         ];
         $helper = new HelperForm();
