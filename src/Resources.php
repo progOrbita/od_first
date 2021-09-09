@@ -15,7 +15,7 @@ class Resources{
     public function add(array $array_data){
         $array_error = $this->validate($array_data);
         if(count($array_error['error']) === 0){
-            return Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date,creation_date,mod_date) VALUES ("'.$array_data['name'].'",'.$array_data['age'].',"'.$array_data['date'].'",NOW(),NOW())');
+            return Db::getInstance()->execute('INSERT INTO '.$this->table.'(name,age,date_birth,date_add,date_upd) VALUES ("'.$array_data['name'].'",'.$array_data['age'].',"'.$array_data['date'].'",NOW(),NOW())');
         }
         
         return $array_error;
@@ -29,13 +29,13 @@ class Resources{
 
         $removed = Resources::getRemoved($id);
         if($removed == 0){
-            $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+            $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'od_first SET removed=1, date_upd=NOW(), date_del=NOW() WHERE id="'.$id.'"');
             if($query==true){
                 return Resources::getRemoved($id);
             }
         }
         else{
-            $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=0, mod_date=NOW(), del_date=NULL WHERE id="'.$id.'"');
+            $query = Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'od_first SET removed=0, date_upd=NOW(), date_del=NULL WHERE id="'.$id.'"');
             if($query==true){
                 return Resources::getRemoved($id);
             }
@@ -58,7 +58,7 @@ class Resources{
         if($checkRemoved==1){
             return false;
         }
-        return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'odFirst SET removed=1, mod_date=NOW(), del_date=NOW() WHERE id="'.$id.'"');
+        return Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'od_first SET removed=1, date_upd=NOW(), date_del=NOW() WHERE ID="'.$id.'"');
     }
     /**
      * find an user given an ID.
@@ -80,10 +80,10 @@ class Resources{
             `ID` int AUTO_INCREMENT PRIMARY KEY,
             `name` varchar(255),
             `age` int,
-            `date` DATE,
-            `creation_date` DATETIME,
-            `mod_date` DATETIME,
-            `del_date` DATETIME,
+            `date_birth` DATE,
+            `date_add` DATETIME,
+            `date_upd` DATETIME,
+            `date_del` DATETIME,
             `removed` BIT DEFAULT 0
         )";
         return Db::getInstance()->execute($query);
@@ -115,9 +115,9 @@ class Resources{
 
                     break;
 
-                case "date":
-                case "creation_date":
-                case "mod_date":
+                case "date_birth":
+                case "date_add":
+                case "date_upd":
                     //*** 0 -> beggining date to filter
                     //*** 1 -> end date to filter
                     if(!empty($value[0])){
@@ -153,7 +153,7 @@ class Resources{
     public function save(array $array_save){
         $array_error = $this->validate($array_save);
         if(count($array_error['error']) === 0){
-            return Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date="'.$array_save['date'].'",mod_date=NOW() WHERE ID = '.$array_save['id']);
+            return Db::getInstance()->execute('UPDATE '.$this->table.' SET name="'.$array_save['name'].'", age='.$array_save['age'].', date_birth="'.$array_save['date'].'",date_upd=NOW() WHERE ID = '.$array_save['id']);
         }
         return $array_error;
     }

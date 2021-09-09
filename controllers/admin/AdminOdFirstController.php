@@ -15,7 +15,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $this->bootstrap = true;
         $this->name = 'odfirst';
         $this->module = 'od_first';
-        $this->table = 'odFirst';
+        $this->table = 'od_first';
         parent::__construct();
     }
 
@@ -165,7 +165,6 @@ class AdminOdFirstController extends ModuleAdminController{
      */
     public function displayTable(){
         $query = 'SELECT * FROM `'._DB_PREFIX_.$this->table.'`';
-        
         //If there's no filters, query return everything (don't enter here)
         if(Tools::isSubmit('submitFilter')){
             $whereStr = Resources::getFilters($_POST);
@@ -183,7 +182,6 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         $result = Db::getInstance()->executeS($query);
         
-        
         $helper = new HelperList();
         $helper->actions = array('edit','delete');
         $helper->identifier = 'ID';
@@ -193,7 +191,7 @@ class AdminOdFirstController extends ModuleAdminController{
         $helper->show_toolbar = true;
         $helper->shopLinkType = '';
         $helper->simple_header = false;
-        $helper->table = $this->name;
+        $helper->table = $this->table;
         $helper->title = 'User listed';
         $helper->token = Tools::getAdminTokenLite('AdminOdFirst');
 
@@ -233,17 +231,16 @@ class AdminOdFirstController extends ModuleAdminController{
         }
         
         if($id != null){
-            $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE ID='.$id);
+            $query_mod = Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'od_first WHERE ID='.$id);
         
             $helper->fields_value = array(
                 'mod_id' => $query_mod[0]['ID'],
                 'mod_name' => $query_mod[0]['name'],
                 'mod_age' => $query_mod[0]['age'],
-                'mod_date' => $query_mod[0]['date'],
-                'mod_creation_date' => $query_mod[0]['creation_date'],
-                'mod_mod_date' => $query_mod[0]['mod_date'],
-                'mod_del_date' => $query_mod[0]['del_date'],
-
+                'mod_date_birth' => $query_mod[0]['date'],
+                'mod_date_add' => $query_mod[0]['creation_date'],
+                'mod_date_upd' => $query_mod[0]['mod_date'],
+                'mod_date_del' => $query_mod[0]['del_date'],
             );
         }
         Media::addJsDef(array(
@@ -414,22 +411,22 @@ class AdminOdFirstController extends ModuleAdminController{
                 'callback' => 'checkAge',
                 'callback_object' => $this,
             ),
-            'date' => array(
-                'title' => 'Date',
+            'date_birth' => array(
+                'title' => 'Birth date',
                 'width' => 150,
                 'type' => 'date',
             ),
-            'creation_date' => array(
-                'title' => 'Creation date',
+            'date_add' => array(
+                'title' => 'Add date',
                 'width' => 200,
                 'type' => 'datetime',
             ),
-            'mod_date' => array(
-                'title' => 'Modification date',
+            'date_upd' => array(
+                'title' => 'Update date',
                 'width' => 200,
                 'type' => 'datetime',
             ),
-            'del_date' => array(
+            'date_del' => array(
                 'title' => 'Remove date',
                 'width' => 200,
                 'type' => 'datetime',
@@ -476,30 +473,30 @@ class AdminOdFirstController extends ModuleAdminController{
                     ],
                     [
                     'type' => 'date',
-                    'label' => 'Date',
+                    'label' => 'Birth date',
                     'name' => 'mod_date',
                     'class' => 'date',
                     'required' => true,
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'Created at',
-                    'name' => 'mod_creation_date',
-                    'class' => 'creation_date',
+                    'label' => 'Added at',
+                    'name' => 'mod_date_add',
+                    'class' => 'date_add',
                     'disabled' => true,
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'last modified',
-                    'name' => 'mod_mod_date',
-                    'class' => 'mod_date',
+                    'label' => 'Last updated',
+                    'name' => 'mod_date_upd',
+                    'class' => 'date_upd',
                     'disabled' => true,
                     ],
                     [
                     'type' => 'text',
-                    'label' => 'deleted at',
-                    'name' => 'mod_del_date',
-                    'class' => 'del_date',
+                    'label' => 'Removed at',
+                    'name' => 'mod_date_del',
+                    'class' => 'date_del',
                     'disabled' => true,
                     ],
                 ],
