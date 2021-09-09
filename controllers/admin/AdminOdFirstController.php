@@ -364,9 +364,9 @@ class AdminOdFirstController extends ModuleAdminController{
                 'buttons' => [
                     [
                     'type' => 'button',
-                    'id' => 'btnSubmit',
-                    'name' => 'commonButton',
-                    'class' => 'btn-success',
+                    'id' => 'btnSave',
+                    'name' => 'btnSave', 
+                    'class' => 'btn-success', // TODO al guardar no muestra que se haya guardado
                     'title' => 'Add user',
                     ],
                     [
@@ -504,7 +504,7 @@ class AdminOdFirstController extends ModuleAdminController{
                     [
                     'type' => 'button',
                     'id' => 'btnEdit',
-                    'name' => 'commonButton',
+                    'name' => 'btnEdit',
                     'title' => 'Update user',
                     ],
                 ],

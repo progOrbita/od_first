@@ -26,12 +26,12 @@ function changeToError(value){
 }
 
 $(document).ready(function(){
-    $('#odFirst_form').attr('autocomplete','off');
+    $('#od_first_form').attr('autocomplete','off');
     let currentNav = "";
     /**
      * Button Add 1st tab
      */
-    $(document).on('click','#btnSubmit',function(){
+    $(document).on('click','#btnSave',function(){
         let name = $('#form_name').val();
         let age = $('#form_age').val();
         let date = $('#form_date').val();

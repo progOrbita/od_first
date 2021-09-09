@@ -6,7 +6,7 @@ use Db;
 use Validate;
 
 class Resources{
-    protected $table = _DB_PREFIX_.'odFirst';
+    protected $table = _DB_PREFIX_.'od_first';
     /**
     * Add a new user into the database
     * @param array $array_data array containing the data of the user
@@ -46,7 +46,7 @@ class Resources{
      * Obtain removed value.
      */
     public static function getRemoved(int $id){
-        return Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE ID="'.$id.'"');
+        return Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'od_first WHERE ID="'.$id.'"');
     }
     /**
     * Check and remove a name from the table by id
@@ -54,7 +54,7 @@ class Resources{
     * @return bool $query true if succesfully, false otherwise
     */
     public static function deleteUser(int $id){
-        $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
+        $checkRemoved = Db::getInstance()->getValue('SELECT removed FROM '._DB_PREFIX_.'od_first WHERE ID="'.$id.'"');
         if($checkRemoved==1){
             return false;
         }
@@ -64,7 +64,7 @@ class Resources{
      * find an user given an ID.
      */
     public static function findUser(int $id){
-        return Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'odFirst WHERE id="'.$id.'"');
+        return Db::getInstance()->executeS('SELECT * FROM '._DB_PREFIX_.'od_first WHERE ID="'.$id.'"');
     }
     /**
      * Generate the nav tab for admincontroller
@@ -76,7 +76,7 @@ class Resources{
     * Generate the entire table for the database
     */
     public static function generateTable(){
-        $query = "CREATE TABLE IF NOT EXISTS `"._DB_PREFIX_."odFirst` (
+        $query = "CREATE TABLE IF NOT EXISTS `"._DB_PREFIX_."od_first` (
             `ID` int AUTO_INCREMENT PRIMARY KEY,
             `name` varchar(255),
             `age` int,
@@ -142,7 +142,7 @@ class Resources{
     * Drop table when uninstalling the module
     */
     public static function removeTable(){
-        $dropQuery = "DROP TABLE IF EXISTS `ps_odFirst` ";
+        $dropQuery = "DROP TABLE IF EXISTS `ps_od_first` ";
         return Db::getInstance()->execute($dropQuery);
     }
     /**
