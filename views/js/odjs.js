@@ -132,10 +132,10 @@ $(document).ready(function(){
                 $('#mod_id').attr('value',element['ID']);
                 $('#mod_name').attr('value',element['name']);
                 $('#mod_age').attr('value',element['age']);
-                $('#mod_date').attr('value',element['date']);
-                $('#mod_creation_date').attr('value',element['creation_date']);
-                $('#mod_mod_date').attr('value',element['mod_date']);
-                $('#mod_del_date').attr('value',element['del_date']);
+                $('#mod_date').attr('value',element['date_birth']);
+                $('#mod_date_add').attr('value',element['date_add']);
+                $('#mod_date_upd').attr('value',element['date_upd']);
+                $('#mod_date_del').attr('value',element['date_del']);
             });
         });
     });
