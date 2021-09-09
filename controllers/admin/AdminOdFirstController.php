@@ -308,18 +308,6 @@ class AdminOdFirstController extends ModuleAdminController{
         return $navBody;
     }
     /**
-     * Limit the age to 100 if it's over this number
-     * @return int $value the age or 100
-     */
-    public function checkAge($value){
-        if($value > 100){
-            return 100;
-        }
-        else{
-            return $value;
-        }
-    }
-    /**
      * Generates first tab fields
      */
     public function formFields(){
@@ -392,6 +380,21 @@ class AdminOdFirstController extends ModuleAdminController{
         ];
         return $modFields;
     }
+     /**
+     * Limit the age to 100 if it's over this number
+     * @return int $value the age or 100
+     */
+    public function checkAge($value){
+        if($value > 100){
+            return 100;
+        }
+        else{
+            return $value;
+        }
+    }
+    /**
+     * Initialize icons, 0 non deleted, 1 deleted.
+     */
     public function checkIcons($value){
         return ($value==0) ? '<i class="bi bi-x-lg text-danger font-medium"></i>' : '<i class="bi bi-check-lg text-success font-medium"></i>';
     }
