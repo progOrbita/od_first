@@ -108,13 +108,13 @@ class AdminOdFirstController extends ModuleAdminController{
      * Checks for various submits or actions are pressed.
      */
     public function checkOperations(){
-        if(Tools::isSubmit('submitResetodfirst')){
+        if(Tools::isSubmit('submitResetod_first')){
             $this->context->controller->informations[] = "Filters reseted";
             //unset the filters
             $this->processResetFilters();
         }
         //Delete(Remove) and update the table
-        else if(Tools::isSubmit('deleteodfirst')){            
+        else if(Tools::isSubmit('deleteod_first')){            
             $done = Resources::deleteUser($_GET['ID']);
             if($done == false){
                 $this->context->controller->informations[] = "User is already removed";
@@ -124,16 +124,16 @@ class AdminOdFirstController extends ModuleAdminController{
             }
         }
         //If the search filter, the arrow to order any field, or page is selected load the table tab as currentTab
-        else if(Tools::isSubmit('submitFilter') || Tools::getIsset('odfirstOrderby') || Tools::getIsset('page')){
+        else if(Tools::isSubmit('submitFilterod_first') || Tools::getIsset('page')){
             
         }
         //If modify button is pressed
-        else if(Tools::isSubmit('updateodfirst')){
+        else if(Tools::isSubmit('updateod_first')){
             $this->Modify_id = Tools::getValue('ID');
             setcookie('navSelected',3);
             //obtain the url, removes the updateodfirst and return the header without it
             $url = $_SERVER['REQUEST_URI'];
-            $newUrl = preg_replace('/(\\?|&)updateodfirst=.*?(&|$)/','',$url);
+            $newUrl = preg_replace('/(\\?|&)updateod_first=.*?(&|$)/','',$url);
             header("Location: ".$newUrl);
         }
         if(isset($_COOKIE['navSelected'])){
@@ -167,7 +167,8 @@ class AdminOdFirstController extends ModuleAdminController{
     public function displayTable(){
         $query = 'SELECT * FROM `'._DB_PREFIX_.$this->table.'`';
         //If there's no filters, query return everything (don't enter here)
-        if(Tools::isSubmit('submitFilter')){
+        if(Tools::isSubmit('submitFilterod_first')){
+            
             $whereStr = Resources::getFilters($_POST);
             //search is pressed but all the field are empty
             if(!is_null($whereStr)){
@@ -175,9 +176,9 @@ class AdminOdFirstController extends ModuleAdminController{
             }
         }
         //If the arrows to order the table are pressed, order the table.
-        if(Tools::getIsset('odfirstOrderby')){
-        $orderDir = $this->checkOrderDirection(Tools::getValue('odfirstOrderway','desc'));
-        $order = $this->checkOrderBy(Tools::getValue('odfirstOrderby','ID'));
+        if(Tools::getIsset('od_firstOrderby')){
+        $orderDir = $this->checkOrderDirection(Tools::getValue('od_firstOrderway','desc'));
+        $order = $this->checkOrderBy(Tools::getValue('od_firstOrderby','ID'));
         $ordering = ' ORDER BY '.$order.' '.$orderDir;
         $query .= $ordering;
         }
@@ -238,10 +239,10 @@ class AdminOdFirstController extends ModuleAdminController{
                 'mod_id' => $query_mod[0]['ID'],
                 'mod_name' => $query_mod[0]['name'],
                 'mod_age' => $query_mod[0]['age'],
-                'mod_date_birth' => $query_mod[0]['date'],
-                'mod_date_add' => $query_mod[0]['creation_date'],
-                'mod_date_upd' => $query_mod[0]['mod_date'],
-                'mod_date_del' => $query_mod[0]['del_date'],
+                'mod_date' => $query_mod[0]['date_birth'],
+                'mod_date_add' => $query_mod[0]['date_add'],
+                'mod_date_upd' => $query_mod[0]['date_upd'],
+                'mod_date_del' => $query_mod[0]['date_del'],
             );
         }
         Media::addJsDef(array(
