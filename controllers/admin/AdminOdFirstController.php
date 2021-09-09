@@ -127,13 +127,12 @@ class AdminOdFirstController extends ModuleAdminController{
             setcookie('navSelected',3);
             //obtain the url, removes the updateodfirst and return the header without it
             $url = $_SERVER['REQUEST_URI'];
-            $newUrl = preg_replace('/(\\?|&)updateod_first=.*?(&|$)/','',$url);
+            $newUrl = preg_replace('/(\\?|&)updateodfirst=.*?(&|$)/','',$url);
             header("Location: ".$newUrl);
         }
         if(isset($_COOKIE['navSelected'])){
             $this->currentTab = $_COOKIE['navSelected'];
         }
-
     }
     /**
      * Display the formulary in the first nav.
@@ -319,7 +318,7 @@ class AdminOdFirstController extends ModuleAdminController{
                     Fields::createFormField('date','Birth date','form_date'),
                 ],
                 'buttons' => [
-                    Fields::createButton('btnSave','btnSave','Add user','btn-success'), // TODO al guardar no muestra que se haya guardado
+                    Fields::createButton('btnSave','btnSave','Add user','btn-success'),
                     Fields::createButton('btnVerify','btnVerify','Verify fields','btn-info'),
                 ],
             ],
