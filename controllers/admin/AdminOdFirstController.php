@@ -1,6 +1,7 @@
 <?php
 
 use OrbitaDigital\OdFirst\Resources;
+use OrbitaDigital\OdFirst\Fields;
 
 class AdminOdFirstController extends ModuleAdminController{
     /**
@@ -256,22 +257,10 @@ class AdminOdFirstController extends ModuleAdminController{
         $form = [
             'form' => [
                 'input' => [
-                    [
-                    'type' => 'text',
-                    'label' => 'ID',
-                    'name' => 'find_id',
-                    'class' => 'id',
-                    'size' => '10',
-                    'desc' => 'Enter ID',
-                    ],
+                    Fields::createFormField('text','ID','find_id','Enter ID','id'),
                 ], 
                 'buttons' => [
-                    [
-                    'type' => 'button',
-                    'id' => 'btnFind',
-                    'name' => 'findButton',
-                    'title' => 'Find User',
-                    ],
+                    Fields::createButton('btnFind','findButton','Find User'),
                 ],
             ],
         ];
@@ -344,38 +333,13 @@ class AdminOdFirstController extends ModuleAdminController{
         $form = [
             'form' => [
                 'input' => [
-                    [
-                    'type' => 'text',
-                    'label' => 'Name',
-                    'name' => 'form_name',
-                    ],
-                    [
-                    'type' => 'text',
-                    'label' => 'Age',
-                    'name' => 'form_age',
-                    'desc' => 'Only numbers accepted',
-                    ],
-                    [
-                    'type' => 'date',
-                    'label' => 'Birth date',
-                    'name' => 'form_date',
-                    ],
+                    Fields::createFormField('text','Name','form_name'),
+                    Fields::createFormField('text','Age','form_age','Only numbers accepted'),
+                    Fields::createFormField('date','Birth_date','form_date'),
                 ],
                 'buttons' => [
-                    [
-                    'type' => 'button',
-                    'id' => 'btnSave',
-                    'name' => 'btnSave', 
-                    'class' => 'btn-success', // TODO al guardar no muestra que se haya guardado
-                    'title' => 'Add user',
-                    ],
-                    [
-                    'type' => 'button',
-                    'id' => 'btnVerify',
-                    'class' => 'btn-info',
-                    'name' => 'btnVerify',
-                    'title' => 'Verify fields'
-                    ],
+                    Fields::createButton('btnSave','btnSave','Add user','btn-success'), // TODO al guardar no muestra que se haya guardado
+                    Fields::createButton('btnVerify','btnVerify','Verify fields','btn-info'),
                 ],
             ],
         ];
@@ -386,21 +350,8 @@ class AdminOdFirstController extends ModuleAdminController{
      */
     public function tableFields(){
         $table_list = array(
-            'ID' => array(
-                'title' => 'ID',
-                'width' => 100,
-                'type' => 'text',
-                'orderby' => true,
-                'search' => false,
-                'filter_type' => 'int',
-            ),
-            'name' => array(
-                'title' => 'Name',
-                'width' => 100,
-                'type' => 'text',
-                'orderby' => true,
-                'havingFilter' => true,
-            ),
+            'ID' => Fields::createTableField('ID',100,'text','int','',true,false),
+            'name' => Fields::createTableField('Name',100,'text','','',true,true,true),
             'age' => array(
                 'title' => 'Age',
                 'width' => 100,
@@ -411,26 +362,10 @@ class AdminOdFirstController extends ModuleAdminController{
                 'callback' => 'checkAge',
                 'callback_object' => $this,
             ),
-            'date_birth' => array(
-                'title' => 'Birth date',
-                'width' => 150,
-                'type' => 'date',
-            ),
-            'date_add' => array(
-                'title' => 'Add date',
-                'width' => 200,
-                'type' => 'datetime',
-            ),
-            'date_upd' => array(
-                'title' => 'Update date',
-                'width' => 200,
-                'type' => 'datetime',
-            ),
-            'date_del' => array(
-                'title' => 'Remove date',
-                'width' => 200,
-                'type' => 'datetime',
-            ),
+            'date_birth' => Fields::createTableField('Birth date',150,'date','','',true),
+            'date_add' => Fields::createTableField('Add date',200,'datetime','','',true),
+            'date_upd' => Fields::createTableField('Update date',200,'datetime','','',true),
+            'date_del' => Fields::createTableField('Remove date',200,'datetime','','',true),
             'removed' => array(
                 'title' => 'Deleted',
                 'width' => 200,
@@ -449,64 +384,16 @@ class AdminOdFirstController extends ModuleAdminController{
         $modFields = [
             'form' => [
                 'input' => [
-                    [
-                    'type' => 'text',
-                    'label' => 'ID',
-                    'name' => 'mod_id',
-                    'class' => 'id',
-                    'disabled' => true,
-                    ],
-                    [
-                    'type' => 'text',
-                    'label' => 'Name',
-                    'name' => 'mod_name',
-                    'class' => 'name',
-                    'required' => true,
-                    ],
-                    [
-                    'type' => 'text',
-                    'label' => 'Age',
-                    'name' => 'mod_age',
-                    'class' => 'age',
-                    'required' => true,
-                    'desc' => 'only numbers accepted',
-                    ],
-                    [
-                    'type' => 'date',
-                    'label' => 'Birth date',
-                    'name' => 'mod_date',
-                    'class' => 'date',
-                    'required' => true,
-                    ],
-                    [
-                    'type' => 'text',
-                    'label' => 'Added at',
-                    'name' => 'mod_date_add',
-                    'class' => 'date_add',
-                    'disabled' => true,
-                    ],
-                    [
-                    'type' => 'text',
-                    'label' => 'Last updated',
-                    'name' => 'mod_date_upd',
-                    'class' => 'date_upd',
-                    'disabled' => true,
-                    ],
-                    [
-                    'type' => 'text',
-                    'label' => 'Removed at',
-                    'name' => 'mod_date_del',
-                    'class' => 'date_del',
-                    'disabled' => true,
-                    ],
+                    Fields::createFormField('text','ID','mod_id','','id',true),
+                    Fields::createFormField('text','Name','mod_name','','name',false,true),
+                    Fields::createFormField('text','Age','mod_age','only numbers accepted','age',false,true),
+                    Fields::createFormField('date','Birth date','mod_date','','date',false,true),
+                    Fields::createFormField('text','Added at','mod_date_add','','date_add',true),
+                    Fields::createFormField('text','Last updated','mod_date_upd','','date_upd',true),
+                    Fields::createFormField('text','Removed at','mod_date_del','','date_del',true),
                 ],
                 'buttons' => [
-                    [
-                    'type' => 'button',
-                    'id' => 'btnEdit',
-                    'name' => 'btnEdit',
-                    'title' => 'Update user',
-                    ],
+                    Fields::createButton('btnEdit','btnEdit','Update user'),
                 ],
             ],
         ];
