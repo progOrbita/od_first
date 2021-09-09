@@ -118,6 +118,7 @@ class Resources{
                 case "date_birth":
                 case "date_add":
                 case "date_upd":
+                case "date_del":
                     //*** 0 -> beggining date to filter
                     //*** 1 -> end date to filter
                     if(!empty($value[0])){
@@ -142,7 +143,7 @@ class Resources{
     * Drop table when uninstalling the module
     */
     public static function removeTable(){
-        $dropQuery = "DROP TABLE IF EXISTS `ps_od_first` ";
+        $dropQuery = "DROP TABLE IF EXISTS"._DB_PREFIX_."`_od_first` ";
         return Db::getInstance()->execute($dropQuery);
     }
     /**
